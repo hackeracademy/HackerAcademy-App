@@ -1,2 +1,2 @@
 powers = [1,2,3,4].map (i) -> i * i
-console.debug powers
+console.info powers
