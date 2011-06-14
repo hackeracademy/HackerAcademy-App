@@ -1,14 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>HackerAcademy</title>
+!!! html
+%html
+%head
+  %title HackerAcademy
   = stylesheet_link_tag :all
   = javascript_include_tag :defaults
   = csrf_meta_tag
-</head>
-<body>
-
-  = yield
-
-</body>
-</html>
+%body
+  %div#main
+    %p.alert= alert
+    %p.notice= notice
+    = yield
