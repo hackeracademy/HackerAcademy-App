@@ -5,6 +5,11 @@
       %ul
       - @post.errors.full_messages.each do |msg|
         %li= msg
+  %div.fields
+    = f.label :title
+    = f.text_field :title
+    = f.label :body
+    = f.text_area :body
   %div.actions
     = f.submit
 
