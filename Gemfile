@@ -17,6 +17,7 @@ gem 'barista', '~> 1.2'
 group :development, :test do
   gem 'haml-rails'
   gem 'rspec-rails'
+  gem 'mongoid-rspec'
   gem 'capybara'
 end
 
