@@ -1,4 +1,6 @@
 HackerAcademy::Application.routes.draw do
+  resources :contests
+
   resources :posts
 
   devise_for :users
