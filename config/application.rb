@@ -41,5 +41,8 @@ module HackerAcademy
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
+
+    config.generators.stylesheet_engine = :sass
+    config.generators.template_engine = :haml
   end
 end
