@@ -14,6 +14,12 @@ gem 'jquery-rails', '1.0.9'
 gem 'devise', '1.3.4'
 gem 'barista', '~> 1.2'
 
+group :development, :test do
+  gem 'haml-rails'
+  gem 'rspec-rails'
+  gem 'capybara'
+end
+
 # Use unicorn as the web server
 # gem 'unicorn'
 
