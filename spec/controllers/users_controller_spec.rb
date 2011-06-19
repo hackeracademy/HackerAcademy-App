@@ -24,7 +24,7 @@ describe UsersController do
   # User. As you add validations to User, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    {:username => "tester",
+    {:name => "tester",
      :password => "testing",
      :email => "test@testing.com"
     }

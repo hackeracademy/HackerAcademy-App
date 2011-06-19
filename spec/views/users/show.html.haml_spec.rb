@@ -3,7 +3,7 @@ require 'spec_helper'
 describe "users/show.html.haml" do
   before(:each) do
     @user = assign(:user, stub_model(User,
-      :username => "tester",
+      :name => "tester",
       :password => "tester",
       :email => "tester@test.com"
     ))
