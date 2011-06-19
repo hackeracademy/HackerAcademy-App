@@ -13,8 +13,11 @@ gem 'haml', '3.1.1'
 gem 'jquery-rails', '1.0.9'
 gem 'devise', '1.3.4'
 gem 'barista', '~> 1.2'
+gem 'cancan', '~> 1.6'
 
 group :development, :test do
+  gem 'database_cleaner'
+  gem 'factory_girl_rails'
   gem 'haml-rails'
   gem 'rspec-rails'
   gem 'mongoid-rspec'
