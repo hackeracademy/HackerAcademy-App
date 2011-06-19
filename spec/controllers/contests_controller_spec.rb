@@ -31,7 +31,7 @@ describe ContestsController do
     it "assigns all contests as @contests" do
       contest = Contest.create! valid_attributes
       get :index
-      assigns(:contests).should eq([contest])
+      assigns(:contests).to_a.should eq([contest])
     end
   end
 

@@ -4,17 +4,21 @@ describe "users/index.html.haml" do
   before(:each) do
     assign(:users, [
       stub_model(User,
-        :description => "Description"
+        :username => "user1",
+        :password => "user1pw",
+        :email => "user1@example.com"
       ),
       stub_model(User,
-        :description => "Description"
+        :username => "user2",
+        :password => "user2pw",
+        :email => "user2@example.com"
       )
     ])
   end
 
   it "renders a list of users" do
     render
-    # Run the generator again with the --webrat flag if you want to use webrat matchers
-    assert_select "tr>td", :text => "Description".to_s, :count => 2
+    assert_select "tr>td", :text => "user1".to_s
+    assert_select "tr>td", :text => "user2".to_s
   end
 end

@@ -4,10 +4,12 @@ describe "posts/index.html.haml" do
   before(:each) do
     assign(:posts, [
       stub_model(Post,
-        :description => "Description"
+        :title => "Title",
+        :body => "Foo"
       ),
       stub_model(Post,
-        :description => "Description"
+        :title => "Title",
+        :body => "Bar"
       )
     ])
   end
@@ -15,6 +17,6 @@ describe "posts/index.html.haml" do
   it "renders a list of posts" do
     render
     # Run the generator again with the --webrat flag if you want to use webrat matchers
-    assert_select "tr>td", :text => "Description".to_s, :count => 2
+    assert_select "tr>td", :text => "Title".to_s, :count => 2
   end
 end

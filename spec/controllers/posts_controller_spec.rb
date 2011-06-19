@@ -31,7 +31,7 @@ describe PostsController do
     it "assigns all posts as @posts" do
       post = Post.create! valid_attributes
       get :index
-      assigns(:posts).should eq([post])
+      assigns(:posts).to_a.should eq([post])
     end
   end
 
