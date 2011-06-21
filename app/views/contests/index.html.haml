@@ -1,0 +1,23 @@
+%h1 Listing contests
+
+%table
+  %tr
+    %th Description
+    %th Start
+    %th End
+    %th
+    %th
+    %th
+
+  - @contests.each do |contest|
+    %tr
+      %td= contest.description
+      %td= contest.start
+      %td= contest.end
+      %td= link_to 'Show', contest
+      %td= link_to 'Edit', edit_contest_path(contest)
+      %td= link_to 'Destroy', contest, :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New Contest', new_contest_path

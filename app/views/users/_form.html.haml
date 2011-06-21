@@ -6,4 +6,10 @@
       - @user.errors.full_messages.each do |msg|
         %li= msg
   %div.actions
+    = f.label :name
+    = f.text_field :name
+    = f.label :email
+    = f.text_field :email, :type => :email
+    = f.label :password
+    = f.text_field :password, :type => :password
     = f.submit

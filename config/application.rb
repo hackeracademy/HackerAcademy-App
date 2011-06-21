@@ -41,5 +41,15 @@ module HackerAcademy
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
+
+    # Don't log passwords
+    config.filter_parameters += [:password, :password_confirmation]
+
+    config.generators do |g|
+      g.stylesheet_engine :sass
+      g.template_engine :haml
+      g.orm :mongoid
+      g.test :rspec
+    end
   end
 end

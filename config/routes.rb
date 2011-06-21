@@ -1,7 +1,13 @@
 HackerAcademy::Application.routes.draw do
+  resources :contests
+
+  resources :posts
+
   devise_for :users
 
   resources :users
+
+  root :to => 'posts#index'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
