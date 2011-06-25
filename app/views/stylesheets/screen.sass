@@ -1,7 +1,41 @@
-/*
-  Welcome to Compass.
-  In this file you should write your main styles. (or centralize your imports)
-  Import this file using the following HTML or equivalent:
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" />
-
 @import compass/reset
+@import "compass/css3/border-radius"
+
+body
+  h1
+    :font-size 2.5em
+    :letter-spacing -0.1em
+    :word-spacing -0.2em
+    :padding 0.3em
+  p
+    :font-size 1em
+
+=info-box($color)
+  :clear left
+  :float left
+  :padding 0 0.5em
+  :background-color $color + #666
+  :color $color
+  :border 1px solid $color
+  :margin-left 40%
+  +border-radius
+
+.alert
+  +info-box(#FF6600)
+.notice
+  +info-box(#008833)
+#top
+  :min-height 5em
+  :background-color #ABCDEF
+  :overflow hidden
+  h1
+    :margin-top 0.5em
+  nav
+    :float right
+  #info
+    :overflow hidden
+    :text-align center
+#main
+  :margin-top 2em
+  :margin-left 25%
+
