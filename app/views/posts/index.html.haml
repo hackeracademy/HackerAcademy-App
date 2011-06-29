@@ -4,13 +4,16 @@
   %tr
     %th
     %th
-    %th
+    - if user_signed_in?
+      %th
+      %th
   - @posts.each do |post|
     %tr
       %td= post.title
       %td= link_to 'Show', post
-      %td= link_to 'Edit', edit_post_path(post)
-      %td= link_to 'Destroy', post, :confirm => 'Are you sure?', :method => :delete
+      - if user_signed_in?
+        %td= link_to 'Edit', edit_post_path(post)
+        %td= link_to 'Destroy', post, :confirm => 'Are you sure?', :method => :delete
 
 %br
 
