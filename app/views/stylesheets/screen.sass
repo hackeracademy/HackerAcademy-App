@@ -2,13 +2,17 @@
 @import "compass/css3/border-radius"
 
 body
-  h1
-    :font-size 2.5em
+  h1, h2
     :letter-spacing -0.1em
     :word-spacing -0.2em
     :padding 0.3em
+  h1
+    :font-size 2.5em
+  h2
+    :font-size 2em
   p
     :font-size 1em
+    :text-align justify
 
 =info-box($color)
   :clear left
@@ -38,4 +42,6 @@ body
 #main
   :margin-top 2em
   :margin-left 25%
+  p
+    :width 80%
 
