@@ -26,9 +26,13 @@
         %h1= link_to 'HackerAcademy', root_path
     %section#info
       - if alert
-        %p.alert= alert
+        .error.message
+          %h3 An error occured!
+          %p= alert
       - if notice
-        %p.notice= notice
+        .info.message
+          %h3 Just so you know
+          %p= notice
     %nav
       - if user_signed_in?
         = link_to 'Logout', destroy_user_session_path

@@ -14,20 +14,42 @@ body
     :font-size 1em
     :text-align justify
 
-=info-box($color)
-  :clear left
-  :float left
-  :padding 0 0.5em
-  :background-color $color + #666
-  :color $color
-  :border 1px solid $color
-  :margin-left 40%
-  +border-radius
+.message
+  :position fixed
+  :top 0
+  :background-image -moz-repeating-linear-gradient(135deg, transparent, transparent 20px, rgba(255,255,255,.05) 20px, rgba(255,255,255,.05) 40px)
+  :background-image -webkit-repeating-linear-gradient(135deg, transparent, transparent 20px, rgba(255,255,255,.05) 20px, rgba(255,255,255,.05) 40px)
+  :background-image -ms-repeating-linear-gradient(135deg, transparent, transparent 20px, rgba(255,255,255,.05) 20px, rgba(255,255,255,.05) 40px)
+  :background-image -o-repeating-linear-gradient(135deg, transparent, transparent 20px, rgba(255,255,255,.05) 20px, rgba(255,255,255,.05) 40px)
+  :background-image repeating-linear-gradient(135deg, transparent, transparent 20px, rgba(255,255,255,.05) 20px, rgba(255,255,255,.05) 40px)
+  :-moz-box-shadow inset 0 -1px 0 rgba(255,255,255,.4)
+  :-webkit-box-shadow inset 0 -1px 0 rgba(255,255,255,.4)
+  :box-shadow inset 0 -1px 0 rgba(255,255,255,.4)
+  :width 100%
+  :border 1px solid
+  :color #fff
+  :padding 15px
+  :position fixed
+  :_position absolute
+  :text-shadow 0 1px 0 rgba(0,0,0,.5)
+  :-webkit-animation animate-bg 5s linear infinite
+.info
+  :background-color #4ea5cd
+  :border-color #3b8eb5
+.error
+  :background-color #de4343
+  :border-color #c43d3d
+.message h3
+  :margin 0 0 5px 0
+.message p
+  :margin 0
 
-.alert
-  +info-box(#FF6600)
-.notice
-  +info-box(#008833)
+@-webkit-keyframes animate-bg
+  from
+    :background-position 0 0
+  to
+    :background-position -100px 0
+
 #top
   :min-height 5em
   :background-color #ABCDEF
