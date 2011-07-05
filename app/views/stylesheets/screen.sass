@@ -15,8 +15,7 @@ body
     :text-align justify
 
 .message
-  :position fixed
-  :top 0
+  :display none
   :background-image -moz-repeating-linear-gradient(135deg, transparent, transparent 20px, rgba(255,255,255,.05) 20px, rgba(255,255,255,.05) 40px)
   :background-image -webkit-repeating-linear-gradient(135deg, transparent, transparent 20px, rgba(255,255,255,.05) 20px, rgba(255,255,255,.05) 40px)
   :background-image -ms-repeating-linear-gradient(135deg, transparent, transparent 20px, rgba(255,255,255,.05) 20px, rgba(255,255,255,.05) 40px)
@@ -33,6 +32,10 @@ body
   :_position absolute
   :text-shadow 0 1px 0 rgba(0,0,0,.5)
   :-webkit-animation animate-bg 5s linear infinite
+  &:after
+    :text-align left
+    :font-size 0.75em
+    :content "(Click to dismiss)"
 .info
   :background-color #4ea5cd
   :border-color #3b8eb5
@@ -40,7 +43,10 @@ body
   :background-color #de4343
   :border-color #c43d3d
 .message h3
+  :text-align left
   :margin 0 0 5px 0
+  :font-size 1.5em
+  :font-weight bold
 .message p
   :margin 0
 
