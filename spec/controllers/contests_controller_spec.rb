@@ -8,6 +8,9 @@ describe ContestsController do
   def valid_attributes
     {
       :description => "New Contest",
+      :problem => "Do something",
+      :start => DateTime.now,
+      :end => DateTime.now + 5.days
     }
   end
 

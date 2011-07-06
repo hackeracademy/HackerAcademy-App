@@ -3,13 +3,14 @@ require 'spec_helper'
 describe "contests/show.html.haml" do
   before(:each) do
     @contest = assign(:contest, stub_model(Contest,
-      :description => "Description"
+      :description => "Description",
+      :start => DateTime.now,
+      :end => DateTime.now + 5.days
     ))
   end
 
   it "renders attributes in <p>" do
     render
-    # Run the generator again with the --webrat flag if you want to use webrat matchers
-    rendered.should match(/Description/)
+    rendered.should contain(/Description/)
   end
 end
