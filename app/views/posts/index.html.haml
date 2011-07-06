@@ -3,17 +3,23 @@
 %table
   %tr
     %th
-    - if user_signed_in?
-      %th
-      %th
+    %th
+    %th
   - @posts.each do |post|
     %tr
-      %td= link_to post.title, post
-      - if user_signed_in?
+      %td
+        %h2= link_to post.title, post
+      - if can? :edit, post
         %td= link_to 'Edit', edit_post_path(post)
+      - if can? :destroy, post
         %td= link_to 'Destroy', post, :confirm => 'Are you sure?', :method => :delete
+    %tr
+      %td
+        = post.body[0..50]
+        - if post.body.length > 50
+          = link_to "(More)", post
 
 %br
 
-- if user_signed_in?
+- if can? :create, Post
   = link_to 'New Post', new_post_path
