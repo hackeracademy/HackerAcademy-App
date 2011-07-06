@@ -1,6 +1,6 @@
 %header
   %h2.left= @post.title
-  %span#post-controls.right
+  %span.controls
     - if can? :edit, @post
       = link_to 'Edit', edit_post_path(@post)
     - if can? :destroy, @post

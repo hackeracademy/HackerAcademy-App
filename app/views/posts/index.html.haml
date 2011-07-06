@@ -1,24 +1,18 @@
 %h1 News
 
-%table
-  %tr
-    %th
-    %th
-    %th
+%ol#posts
   - @posts.each do |post|
-    %tr
-      %td
+    %li
+      .controls
+        - if can? :edit, post
+          = link_to 'Edit', edit_post_path(post)
+        - if can? :destroy, post
+          = link_to 'Destroy', post, :confirm => 'Are you sure?', :method => :delete
+      .post-info
         %h2= link_to post.title, post
-      - if can? :edit, post
-        %td.post-control= link_to 'Edit', edit_post_path(post)
-      - if can? :destroy, post
-        %td.post-control= link_to 'Destroy', post, :confirm => 'Are you sure?', :method => :delete
-    %tr
-      %td(colspan="4")
         = post.body[0..50]
         - if post.body.length > 50
           = link_to "(More)", post
-
 %br
 
 - if can? :create, Post

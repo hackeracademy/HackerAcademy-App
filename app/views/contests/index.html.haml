@@ -6,7 +6,7 @@
   %ol#contests
     - @contests.each do |contest|
       %li
-        .contest-controls
+        .controls
           - if can? :edit, contest
             = link_to 'Edit', edit_contest_path(contest)
           - if can? :destroy, contest
