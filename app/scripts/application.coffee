@@ -1,3 +1,5 @@
+# JS for notification thing from
+# http://www.red-team-design.com/wp-content/uploads/2011/07/cool-notification-messages-with-css3-and-jquery-demo.html
 myMessages = ['info', 'error']
 timeouts = {}
 hideAllMessages = ->
