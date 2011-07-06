@@ -1,4 +1,4 @@
-%h1 Listing posts
+%h1 News
 
 %table
   %tr
@@ -10,11 +10,11 @@
       %td
         %h2= link_to post.title, post
       - if can? :edit, post
-        %td= link_to 'Edit', edit_post_path(post)
+        %td.post-control= link_to 'Edit', edit_post_path(post)
       - if can? :destroy, post
-        %td= link_to 'Destroy', post, :confirm => 'Are you sure?', :method => :delete
+        %td.post-control= link_to 'Destroy', post, :confirm => 'Are you sure?', :method => :delete
     %tr
-      %td
+      %td(colspan="4")
         = post.body[0..50]
         - if post.body.length > 50
           = link_to "(More)", post
