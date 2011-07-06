@@ -1,6 +1,19 @@
 @import compass/reset
 @import "compass/css3/border-radius"
 
+=link-button
+  +border-radius(10px)
+  :background-color black
+  :color white
+  :text-decoration none
+  :padding 0.2em 0.5em
+  :font-weight bold
+  &:visited
+    :color white
+  &:hover
+    :background-color gray
+    :color black
+
 body
   h1, h2
     :letter-spacing -0.1em
@@ -13,6 +26,14 @@ body
   p
     :font-size 1em
     :text-align justify
+
+.right
+  :float right
+.left
+  :float left
+
+header
+  :overflow hidden
 
 /* CSS for notification thing from
   http://www.red-team-design.com/wp-content/uploads/2011/07/cool-notification-messages-with-css3-and-jquery-demo.html
@@ -59,20 +80,41 @@ body
 
 #top
   :min-height 5em
-  :background-color #ABCDEF
+  :background-color #000
+  :color #fff
   :overflow hidden
   h1
     :margin-top 0.5em
+  a
+    :text-decoration none
+    :color white
   nav
-    :float right
+    ul
+      :list-style none
+      li
+        :display inline-block
+        :margin 0.5em
+    #user-controls
+      :float right
+
   #info
     :overflow hidden
     :text-align center
 #main
   :margin-top 2em
   :margin-left 25%
+  h1
+    :padding-left 0
   p
     :width 80%
+
+#post-controls
+  :margin-right 10%
+  a
+    +link-button
+.post-control
+  a
+    +link-button
 
 .field_with_errors
   :padding 2px

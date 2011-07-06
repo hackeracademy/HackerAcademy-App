@@ -34,9 +34,15 @@
           %h3 Just so you know
           %p= notice
     %nav
+      %ul
+        %li= link_to 'News', posts_path
+        %li= link_to 'Contests', contests_path
       - if user_signed_in?
-        %p= "Logged in as #{current_user.name}"
-        = link_to 'Logout', destroy_user_session_path
+        #user-controls
+          %p
+            Logged in as
+            = link_to current_user.name, edit_user_path(current_user)
+          = link_to 'Logout', destroy_user_session_path
       - else
         = link_to 'Login', new_user_session_path
   %section#main
