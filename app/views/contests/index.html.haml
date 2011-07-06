@@ -1,23 +1,25 @@
-%h1 Listing contests
+%h1 Contests
 
-%table
-  %tr
-    %th Description
-    %th Start
-    %th End
-    %th
-    %th
-    %th
-
-  - @contests.each do |contest|
-    %tr
-      %td= contest.description
-      %td= contest.start
-      %td= contest.end
-      %td= link_to 'Show', contest
-      %td= link_to 'Edit', edit_contest_path(contest)
-      %td= link_to 'Destroy', contest, :confirm => 'Are you sure?', :method => :delete
+- if @contests.length == 0
+  %p No contests available at this time
+- else
+  %ol#contests
+    - @contests.each do |contest|
+      %li
+        .contest-controls
+          - if can? :edit, contest
+            = link_to 'Edit', edit_contest_path(contest)
+          - if can? :destroy, contest
+            = link_to 'Destroy', contest, :confirm => 'Are you sure?', :method => :delete
+        .contest-info
+          %p= link_to contest.description, contest
+          %p= "Starts #{contest.start.pretty_inspect}"
+          %p= "Finishes #{contest.end.pretty_inspect}"
+          %p
+            = duration_between DateTime.now, contest.end
+            remaining
 
 %br
 
-= link_to 'New Contest', new_contest_path
+- if can? :create, Contest
+  = link_to 'New Contest', new_contest_path

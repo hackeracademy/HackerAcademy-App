@@ -1,15 +1,16 @@
-%p#notice= notice
-
+%h2= @contest.description
 %p
-  %b Description:
-  = @contest.description
+  Start:
+  = @contest.start.pretty_inspect
 %p
-  %b Start:
-  = @contest.start
+  End:
+  = @contest.end.pretty_inspect
 %p
-  %b End:
-  = @contest.end
-
-= link_to 'Edit', edit_contest_path(@contest)
-\|
+  = duration_between DateTime.now, @contest.end
+  remaining
+%h3 Your Mission:
+%p= @contest.problem
+- if can? :edit, @contest
+  = link_to 'Edit', edit_contest_path(@contest)
+  |
 = link_to 'Back', contests_path
