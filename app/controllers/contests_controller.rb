@@ -1,4 +1,7 @@
 class ContestsController < ApplicationController
+  before_filter :authenticate_user!, :except => [:show, :index]
+  authorize_resource
+
   # GET /contests
   # GET /contests.xml
   def index

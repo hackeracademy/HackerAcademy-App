@@ -31,3 +31,21 @@ RSpec.configure do |config|
   end
 
 end
+
+def get_user
+  return User.create!({
+    :name => "tester",
+    :password => "testing",
+    :email => "test@testing.com"
+  })
+end
+
+def get_admin_user
+  return User.create!({
+    :name => "admin",
+    :password => "password",
+    :email => "admin@testing.com"
+  }) do |user|
+    user.is_admin = true
+  end
+end
