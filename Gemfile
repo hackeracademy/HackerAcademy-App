@@ -22,6 +22,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'mongoid-rspec'
   gem 'capybara'
+  gem 'webrat'
 end
 
 # Use unicorn as the web server
