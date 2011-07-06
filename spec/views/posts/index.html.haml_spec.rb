@@ -17,7 +17,7 @@ describe "posts/index.html.haml" do
   it "renders a list of posts" do
     render :template => "posts/index", :layout => "layouts/application"
     rendered.should have_selector '#main' do |page|
-      page.should have_selector 'tr td h2' do |header|
+      page.should have_selector 'tr td h2', :count => 2 do |header|
         header.should have_selector 'a'
         header.should contain "Title"
       end
