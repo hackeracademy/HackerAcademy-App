@@ -35,6 +35,7 @@
           %p= notice
     %nav
       - if user_signed_in?
+        %p= "Logged in as #{current_user.name}"
         = link_to 'Logout', destroy_user_session_path
       - else
         = link_to 'Login', new_user_session_path
@@ -42,3 +43,4 @@
     = yield
   = javascript_include_tag 'Hyphenator.js'
   = javascript_include_tag :defaults
+
