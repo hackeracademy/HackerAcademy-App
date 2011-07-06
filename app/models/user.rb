@@ -4,7 +4,7 @@ class User
   attr_accessible :name, :email, :password, :password_confirmation, :remember_me
 
   devise :database_authenticatable, :registerable, :recoverable,
-    :rememberable, :trackable, :validatable
+    :rememberable, :trackable, :validatable, :lockable
 
   field :name
 
