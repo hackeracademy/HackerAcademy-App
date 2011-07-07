@@ -11,5 +11,11 @@ require 'spec_helper'
 #   end
 # end
 describe ContestsHelper do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe "duration_between method" do
+    it "should give the difference between two DateTimes" do
+      now = DateTime.now
+      helper.duration_between(now, now + 3.hours).should ==
+        "0 days, 3 hours, 0 minutes, 0 seconds"
+    end
+  end
 end
