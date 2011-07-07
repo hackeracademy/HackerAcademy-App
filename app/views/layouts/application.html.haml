@@ -37,14 +37,14 @@
       %ul
         %li= link_to 'News', posts_path
         %li= link_to 'Contests', contests_path
-      - if user_signed_in?
-        #user-controls
+      #user-controls
+        - if user_signed_in?
           %p
             Logged in as
             = link_to current_user.name, edit_user_path(current_user)
           = link_to 'Logout', destroy_user_session_path
-      - else
-        = link_to 'Login', new_user_session_path
+        - else
+          = link_to 'Login', new_user_session_path
   %section#main
     = yield
   = javascript_include_tag 'Hyphenator.js'
