@@ -9,8 +9,7 @@ hideAllMessages = ->
 hideMessage = (type) ->
   $('.' + type).animate(top: -$('.' + type).outerHeight(), 500)
 showMessage = (type) ->
-  $('.' + type).animate(
-    {top: 0},
+  $('.' + type).animate({top: 0},
     complete: -> timeouts[type] = setTimeout((-> hideMessage(type)), 4000)
     duration: 500)
 $(document).ready ->
