@@ -15,6 +15,7 @@ gem 'devise', '1.3.4'
 gem 'barista', '~> 1.2'
 gem 'therubyracer', '~> 0.9'
 gem 'cancan', '~> 1.6'
+gem 'redcarpet'
 
 group :development, :test do
   gem 'database_cleaner'

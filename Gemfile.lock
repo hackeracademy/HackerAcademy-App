@@ -121,6 +121,7 @@ GEM
       rake (>= 0.8.7)
       thor (~> 0.14.4)
     rake (0.9.1)
+    redcarpet (1.17.2)
     rspec (2.6.0)
       rspec-core (~> 2.6.0)
       rspec-expectations (~> 2.6.0)
@@ -175,6 +176,7 @@ DEPENDENCIES
   mongoid (~> 2.0)
   mongoid-rspec
   rails (= 3.0.7)
+  redcarpet
   rspec-rails
   therubyracer (~> 0.9)
   webrat

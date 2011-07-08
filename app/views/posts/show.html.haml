@@ -5,5 +5,5 @@
       = link_to 'Edit', edit_post_path(@post)
     - if can? :destroy, @post
       = link_to 'Destroy', @post, :confirm => 'Are you sure?', :method => :delete
-%p.text.hypenate= @post.body
+%p.text.hypenate!= markdown(@post.body)
 
