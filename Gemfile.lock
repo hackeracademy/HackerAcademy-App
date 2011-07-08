@@ -82,6 +82,7 @@ GEM
       railties (~> 3.0)
       thor (~> 0.14)
     json_pure (1.5.2)
+    libv8 (3.3.10.2)
     mail (2.2.19)
       activesupport (>= 2.3.6)
       i18n (>= 0.4.0)
@@ -140,6 +141,8 @@ GEM
       ffi (>= 1.0.7)
       json_pure
       rubyzip
+    therubyracer (0.9.2)
+      libv8 (~> 3.3.10)
     thor (0.14.6)
     treetop (1.4.9)
       polyglot (>= 0.3.1)
@@ -173,4 +176,5 @@ DEPENDENCIES
   mongoid-rspec
   rails (= 3.0.7)
   rspec-rails
+  therubyracer (~> 0.9)
   webrat
