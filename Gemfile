@@ -13,6 +13,7 @@ gem 'haml', '3.1.1'
 gem 'jquery-rails', '1.0.9'
 gem 'devise', '1.3.4'
 gem 'barista', '~> 1.2'
+gem 'therubyracer', '~> 0.9'
 gem 'cancan', '~> 1.6'
 
 group :development, :test do
