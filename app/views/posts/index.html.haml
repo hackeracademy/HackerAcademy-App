@@ -10,8 +10,8 @@
           = link_to 'Destroy', post, :confirm => 'Are you sure?', :method => :delete
       .post-info
         %h2= link_to post.title, post
-        = post.body[0..50]
-        - if post.body.length > 50
+        %p.text.hypenate= post.body[0..150]
+        - if post.body.length > 150
           = link_to "(More)", post
 %br
 
