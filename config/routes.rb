@@ -3,7 +3,7 @@ HackerAcademy::Application.routes.draw do
 
   resources :posts
 
-  devise_for :users, :controllers => { :registrations => "users/registrations" }
+  devise_for :users
 
   resources :users
 
