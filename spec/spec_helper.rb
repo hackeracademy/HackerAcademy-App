@@ -32,9 +32,9 @@ end
 
 def get_user
   return User.create!({
-    :name => "tester",
+    :name => "someguy",
     :password => "testing",
-    :email => "test@testing.com"
+    :email => "someguy@place.com"
   })
 end
 

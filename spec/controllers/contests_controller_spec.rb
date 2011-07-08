@@ -137,6 +137,14 @@ describe ContestsController do
         response.should redirect_to(new_user_session_path)
       end
 
+      it "should fail when logged in as non-admin" do
+        sign_in get_user
+        contest = Contest.create! valid_attributes
+        contest.should_receive(:update_attributes).never
+        put :update, :id => contest.id, :contest => {'these' => 'params'}
+        response.should redirect_to(root_url)
+      end
+
       it "updates the requested contest" do
         contest = Contest.create! valid_attributes
         # Assuming there are no other contests in the database, this

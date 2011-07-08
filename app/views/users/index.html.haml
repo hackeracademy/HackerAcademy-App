@@ -1,18 +1,12 @@
-%h1 Listing users
+%h1 Users
 
-%table
-  %tr
-    %th
-    %th
-    %th
-    %th
+%ol#users
   - @users.each do |user|
-    %tr
-      %td= user.name
-      %td= link_to 'Show', user
-      %td= link_to 'Edit', edit_user_path(user)
-      %td= link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete
-
-%br
-
-= link_to 'New User', new_user_path
+    %li
+      .controls
+        - if can? :update, user
+          = link_to 'Edit', edit_user_path(user)
+        - if can? :destroy, user
+          = link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete
+      .user-info
+        %p= link_to user.name, user

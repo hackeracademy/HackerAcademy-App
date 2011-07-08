@@ -126,6 +126,13 @@ describe PostsController do
         response.should redirect_to(new_user_session_path)
       end
 
+      it "should fail when logged in as non-admin" do
+        sign_in get_user
+        post = Post.create! valid_attributes
+        post.should_receive(:update_attributes).never
+        put :update, :id => post.id, :post => {:title => "New Title"}
+      end
+
       it "updates the requested post" do
         post = Post.create! valid_attributes
         # Assuming there are no other posts in the database, this

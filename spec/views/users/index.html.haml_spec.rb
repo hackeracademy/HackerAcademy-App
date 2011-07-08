@@ -18,7 +18,6 @@ describe "users/index.html.haml" do
 
   it "renders a list of users" do
     render
-    assert_select "tr>td", :text => "user1".to_s
-    assert_select "tr>td", :text => "user2".to_s
+    rendered.should have_selector "ol li .user-info p a", :count => 2
   end
 end
