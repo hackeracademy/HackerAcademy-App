@@ -17,5 +17,6 @@ describe User do
     found.email.should eq user.email
   end
 
-  it { should validate_presence_of :name }
+  it { should validate_uniqueness_of :name }
+  it { should validate_uniqueness_of :email }
 end

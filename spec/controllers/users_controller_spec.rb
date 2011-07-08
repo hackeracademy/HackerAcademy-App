@@ -47,76 +47,69 @@ describe UsersController do
   end
 
   describe "GET new" do
-    it "assigns a new user as @user" do
+    it "should redirect to login (devise to create)" do
       get :new
-      assigns(:user).should be_a_new(User)
+      response.should redirect_to(new_user_session_path)
     end
   end
 
   describe "GET edit" do
+    it "should fail when not logged in" do
+      user = User.create! valid_attributes
+      get :edit, :id => user.id.to_s
+      assigns(:user).should be_nil
+      response.should redirect_to(new_user_session_path)
+    end
+
     it "assigns the requested user as @user" do
+      sign_in get_admin_user
       user = User.create! valid_attributes
       get :edit, :id => user.id.to_s
       assigns(:user).should eq(user)
     end
   end
 
-  describe "POST create" do
-    describe "with valid params" do
-      it "creates a new User" do
-        expect {
-          post :create, :user => valid_attributes
-        }.to change(User, :count).by(1)
-      end
-
-      it "assigns a newly created user as @user" do
-        post :create, :user => valid_attributes
-        assigns(:user).should be_a(User)
-        assigns(:user).should be_persisted
-      end
-
-      it "redirects to the created user" do
-        post :create, :user => valid_attributes
-        response.should redirect_to(User.last)
-      end
-    end
-
-    describe "with invalid params" do
-      it "assigns a newly created but unsaved user as @user" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        User.any_instance.stub(:save).and_return(false)
-        post :create, :user => {}
-        assigns(:user).should be_a_new(User)
-      end
-
-      it "re-renders the 'new' template" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        User.any_instance.stub(:save).and_return(false)
-        post :create, :user => {}
-        response.should render_template("new")
-      end
-    end
-  end
-
   describe "PUT update" do
     describe "with valid params" do
-      it "updates the requested user" do
+      it "should fail when not logged in" do
         user = User.create! valid_attributes
-        # Assuming there are no other users in the database, this
-        # specifies that the User created on the previous line
-        # receives the :update_attributes message with whatever params are
-        # submitted in the request.
-        User.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
-        put :update, :id => user.id, :user => {'these' => 'params'}
+        put :update, :id => user.id, :user => {'name' => 'foobar'}
+        response.should redirect_to(new_user_session_path)
+      end
+
+      it "should fail when logged in as non-admin" do
+        sign_in get_user
+        user = User.create! valid_attributes
+        user.should_receive(:update_attributes).never
+        put :update, :id => user.id, :user => {'name' => 'foobar'}
+        response.should redirect_to(root_url)
+      end
+
+      it "should allow self-updates" do
+        user = get_user
+        sign_in user
+        User.any_instance.should_receive(:update_attributes).with({
+          'name' => 'foobar'})
+        put :update, :id => user.id, :user => {'name' => 'foobar'}
+      end
+
+      it "updates the requested user" do
+        sign_in get_admin_user
+        user = User.create! valid_attributes
+        User.any_instance.should_receive(:update_attributes).with({
+          'name' => 'foobar'})
+        put :update, :id => user.id, :user => {'name' => 'foobar'}
       end
 
       it "assigns the requested user as @user" do
+        sign_in get_admin_user
         user = User.create! valid_attributes
         put :update, :id => user.id, :user => valid_attributes
         assigns(:user).should eq(user)
       end
 
       it "redirects to the user" do
+        sign_in get_admin_user
         user = User.create! valid_attributes
         put :update, :id => user.id, :user => valid_attributes
         response.should redirect_to(user)
@@ -125,6 +118,7 @@ describe UsersController do
 
     describe "with invalid params" do
       it "assigns the user as @user" do
+        sign_in get_admin_user
         user = User.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         User.any_instance.stub(:save).and_return(false)
@@ -133,6 +127,7 @@ describe UsersController do
       end
 
       it "re-renders the 'edit' template" do
+        sign_in get_admin_user
         user = User.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         User.any_instance.stub(:save).and_return(false)
@@ -143,7 +138,24 @@ describe UsersController do
   end
 
   describe "DELETE destroy" do
+    it "should fail when not logged in" do
+      user = User.create! valid_attributes
+      expect {
+        delete :destroy, :id => user.id.to_s
+      }.to change(User, :count).by(0)
+      response.should redirect_to(new_user_session_path)
+    end
+
+    it "should fail when logged in as non-admin" do
+      sign_in get_user
+      user = User.create! valid_attributes
+      expect {
+        delete :destroy, :id => user.id.to_s
+      }.to change(User, :count).by(0)
+    end
+
     it "destroys the requested user" do
+      sign_in get_admin_user
       user = User.create! valid_attributes
       expect {
         delete :destroy, :id => user.id.to_s
@@ -151,6 +163,7 @@ describe UsersController do
     end
 
     it "redirects to the users list" do
+      sign_in get_admin_user
       user = User.create! valid_attributes
       delete :destroy, :id => user.id.to_s
       response.should redirect_to(users_url)

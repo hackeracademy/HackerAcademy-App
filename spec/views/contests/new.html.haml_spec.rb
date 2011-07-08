@@ -3,7 +3,10 @@ require 'spec_helper'
 describe "contests/new.html.haml" do
   before(:each) do
     assign(:contest, stub_model(Contest,
-      :description => "MyString"
+      :description => "MyString",
+      :problem => "Do something",
+      :start => DateTime.now,
+      :end => DateTime.now + 5.days
     ).as_new_record)
   end
 

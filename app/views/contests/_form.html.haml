@@ -10,10 +10,13 @@
     = f.label :description
     = f.text_field :description
   .field
+    = f.label :problem
+    = f.text_area :problem
+  .field
     = f.label :start
-    = f.date_select :start
+    = f.datetime_select :start
   .field
     = f.label :end
-    = f.date_select :end
+    = f.datetime_select :end
   .actions
     = f.submit 'Save'

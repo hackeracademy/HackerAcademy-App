@@ -1,17 +1,19 @@
-%h1 Listing posts
+%h1 News
 
-%table
-  %tr
-    %th
-    %th
-    %th
+%ol#posts
   - @posts.each do |post|
-    %tr
-      %td= post.title
-      %td= link_to 'Show', post
-      %td= link_to 'Edit', edit_post_path(post)
-      %td= link_to 'Destroy', post, :confirm => 'Are you sure?', :method => :delete
-
+    %li
+      .controls
+        - if can? :edit, post
+          = link_to 'Edit', edit_post_path(post)
+        - if can? :destroy, post
+          = link_to 'Destroy', post, :confirm => 'Are you sure?', :method => :delete
+      .post-info
+        %h2= link_to post.title, post
+        = post.body[0..50]
+        - if post.body.length > 50
+          = link_to "(More)", post
 %br
 
-= link_to 'New Post', new_post_path
+- if can? :create, Post
+  = link_to 'New Post', new_post_path

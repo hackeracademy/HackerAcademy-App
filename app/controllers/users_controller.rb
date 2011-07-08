@@ -1,4 +1,7 @@
 class UsersController < ApplicationController
+  before_filter :authenticate_user!, :except => [:show, :index]
+  authorize_resource
+
   # GET /users
   # GET /users.xml
   def index
@@ -57,6 +60,7 @@ class UsersController < ApplicationController
   # PUT /users/1.xml
   def update
     @user = User.find(params[:id])
+    authorize! :update, @user
     params[:user].delete(:password) if params[:user][:password].blank?
     respond_to do |format|
       if @user.update_attributes(params[:user])
@@ -73,6 +77,7 @@ class UsersController < ApplicationController
   # DELETE /users/1.xml
   def destroy
     @user = User.find(params[:id])
+    authorize! :destroy, @user
     @user.destroy
 
     respond_to do |format|
