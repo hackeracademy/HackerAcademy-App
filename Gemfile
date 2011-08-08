@@ -12,11 +12,11 @@ gem 'compass', '0.11.1'
 gem 'haml', '3.1.1'
 gem 'jquery-rails', '1.0.9'
 gem 'devise', '1.3.4'
-gem 'barista', '~> 1.2'
-gem 'therubyracer', '~> 0.9'
 gem 'cancan', '~> 1.6'
+gem 'redcarpet'
 
 group :development, :test do
+  gem 'barista', '~> 1.2'
   gem 'database_cleaner'
   gem 'factory_girl_rails'
   gem 'haml-rails'

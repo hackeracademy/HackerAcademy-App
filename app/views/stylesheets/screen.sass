@@ -1,5 +1,7 @@
 @import compass/reset
 @import "compass/css3/border-radius"
+@import url(http://fonts.googleapis.com/css?family=Anonymous+Pro&v1)
+@import url('http://fonts.googleapis.com/css?family=Open+Sans|Josefin+Sans&v2')
 
 =link-button
   +border-radius(10px)
@@ -15,6 +17,10 @@
     :color black
 
 body
+  h1, h2, h3
+    :font-family 'Josefin Sans', Veranda, Helvetica Neue, sans-serif
+  p
+    :font-family 'Open Sans', Veranda, Helvetica Neue, sans-serif
   h1, h2
     :letter-spacing -0.1em
     :padding 0.3em
@@ -28,6 +34,13 @@ body
   p
     :font-size 1em
     :text-align justify
+    :margin-bottom 1em
+  code
+    :font-family "Anonymous Pro", monospace
+  em
+    :font-style italic
+  strong
+    :font-weight bold
 
 .right
   :float right
@@ -36,7 +49,20 @@ body
 
 header
   :overflow hidden
-
+dl
+  dt
+    :font-weight bold
+  dd
+    :margin-left 1em
+table
+  :margin-bottom 1em
+  thead
+    :color white
+    :background-color black
+  tbody
+    td
+      :border 1px solid black
+      :padding 5px
 /* CSS for notification thing from
   http://www.red-team-design.com/wp-content/uploads/2011/07/cool-notification-messages-with-css3-and-jquery-demo.html
 .message
@@ -98,6 +124,8 @@ header
         :margin 0.5em
     #user-controls
       :float right
+      p a
+        :text-decoration underline
 
   #info
     :overflow hidden
