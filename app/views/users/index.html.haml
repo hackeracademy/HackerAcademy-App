@@ -9,4 +9,7 @@
         - if can? :destroy, user
           = link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete
       .user-info
-        %p= link_to user.name, user
+        %p
+          = link_to user.name, user
+          - if user.is_admin
+            [admin]
