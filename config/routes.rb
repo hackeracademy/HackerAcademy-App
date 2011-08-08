@@ -7,6 +7,8 @@ HackerAcademy::Application.routes.draw do
 
   resources :users
 
+  match 'page/:name' => 'page#show'
+
   root :to => 'posts#index'
 
   # The priority is based upon order of creation:
