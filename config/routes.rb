@@ -7,9 +7,11 @@ HackerAcademy::Application.routes.draw do
 
   resources :users
 
-  match 'page/:name' => 'page#show'
+  #match 'page/:name' => 'page#show'
 
-  root :to => 'posts#index'
+  root :to => 'page#show', :name => 'home'
+  
+  match ':name' => 'page#show'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
