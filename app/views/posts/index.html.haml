@@ -9,7 +9,7 @@
       .post-info
         %h2= link_to post.title, post
         -#%p.text.hypenate= post.body[0..150]
-        %p.text.hypenate= post.body[0..150]
+        %p.text.hypenate= post.body#[0..150]
         -# if post.body.length > 150
           = link_to "(More)", post
 %br
