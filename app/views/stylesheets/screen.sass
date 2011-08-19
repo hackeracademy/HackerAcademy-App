@@ -31,8 +31,6 @@ html,body
 #main
   :min-height 100%
   :float left
-  :padding-right 2000px
-  :margin-right -2000px
   :height 100%
   :overflow-y scroll
   :padding-top 9.5em
@@ -43,6 +41,7 @@ html,body
     :max-width 500px
     :min-width 200px
     :padding-bottom 10em
+    :padding-right 100px
 
 // COLOR DEFS
 
@@ -54,7 +53,9 @@ $main_font: #565656
 $main_font_hover: #cf1414
 
 // COLORS
-
+html
+  :background $main_bg
+  
 #side
   :background $side_bg
   :color $side_font
