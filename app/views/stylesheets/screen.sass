@@ -20,13 +20,11 @@
 html,body
   :height 100%
   :overflow hidden
-  :min-width 1000px
-  
 
 #side
   //width ~366px
   :height 100%
-  :position fixed
+  :float left
   :width 8.5em
   @media handheld, only screen and (max-device-width:480px)
     :height auto
@@ -37,10 +35,9 @@ html,body
 #main
   :overflow auto
   :height 100%
-    
   .wrapper
     :padding 4em 0
-    :margin-left 11.5em + 1em
+    :margin-left 1em
     :max-width 20em
   @media handheld, only screen and (max-device-width:480px)
     :overflow scroll
@@ -338,5 +335,6 @@ body.about #main
     ul
       li
         :list-style none
+
 
 
