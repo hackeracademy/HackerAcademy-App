@@ -52,12 +52,14 @@
               = link_to current_user.name, edit_user_path(current_user)
             = link_to 'Log out', destroy_user_session_path
           - else
-            
-  
+      %iframe(src="http://www.facebook.com/plugins/likebox.php?href=https%3A%2F%2Fwww.facebook.com%2Fpages%2FHacker-Academy%2F233826676647237&amp;width=292&amp;colorscheme=dark&amp;show_faces=true&amp;border_color=%23cf1414&amp;stream=false&amp;header=false&amp;height=62" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:292px; height:62px;" allowTransparency="true")
+
+
     %section#main
       .wrapper.hyphenate
         = yield
     = javascript_include_tag 'Hyphenator.js'
     =# javascript_include_tag :defaults
+
 
 
