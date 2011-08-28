@@ -28,7 +28,12 @@ html,body
   :height 100%
   :position fixed
   :width 8.5em
- 
+  @media handheld, only screen and (max-device-width:480px)
+    :height auto
+    :position static
+    :width 100%
+    :overflow hidden
+
 #main
   :overflow auto
   :height 100%
@@ -37,7 +42,14 @@ html,body
     :padding 4em 0
     :margin-left 11.5em + 1em
     :max-width 20em
-      
+  @media handheld, only screen and (max-device-width:480px)
+    :overflow scroll
+    -webkit-overflow-scrolling: touch
+    .wrapper
+      :padding 1em
+      :margin-left 0
+
+
 // COLOR DEFS
 
 //viking
@@ -95,7 +107,12 @@ html
         :content "/"
     li.active a
       :font-weight bold
-      
+    @media handheld, only screen and (max-device-width:480px)
+      :padding 0.5em
+      ul
+        :display inline
+        li
+          :display inline
 
 #main
   :font-family 'MisoRegular'
@@ -321,4 +338,5 @@ body.about #main
     ul
       li
         :list-style none
+
 
