@@ -45,12 +45,11 @@
           - unless user_signed_in?
             %li(class="#{'active' if current_page?(new_user_session_path)}")
               = link_to 'Log in', new_user_session_path
-        #user-controls
-          - if user_signed_in?
-            %p
-              Logged in as
-              = link_to current_user.name, edit_user_path(current_user)
-            = link_to 'Log out', destroy_user_session_path
+          - else
+            %li
+              = link_to 'Account', edit_user_path(current_user)
+            %li
+              = link_to 'Log out', destroy_user_session_path
     %section#main
       .wrapper.hyphenate
         = yield
