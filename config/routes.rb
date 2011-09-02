@@ -3,14 +3,14 @@ HackerAcademy::Application.routes.draw do
 
   resources :posts
 
-  devise_for :users
+  devise_for :users, :controllers => {:registrations => "registrations"}
 
   resources :users
 
   #match 'page/:name' => 'page#show'
 
   root :to => 'page#show', :name => 'home'
-  
+
   match ':name' => 'page#show'
 
   # The priority is based upon order of creation:
