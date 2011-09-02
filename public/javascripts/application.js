@@ -1,4 +1,4 @@
-/* DO NOT MODIFY. This file was compiled Thu, 07 Jul 2011 16:02:53 GMT from
+/* DO NOT MODIFY. This file was compiled Fri, 02 Sep 2011 14:27:24 GMT from
  * /Users/james/Programming/projects/HackerAcademy/app/scripts/application.coffee
  */
 
