@@ -18,4 +18,19 @@ class RegistrationsController < Devise::RegistrationsController
     super
   end
 
+  def quick_signup_page
+    build_resource({})
+    render :quick_signup
+  end
+
+  def quick_signup
+    build_resource
+    if resource.save
+      set_flash_message :notice, :signed_up
+    else
+      set_flash_message :alert, :signup_failed
+    end
+    redirect_to dosignup_path
+  end
+
 end

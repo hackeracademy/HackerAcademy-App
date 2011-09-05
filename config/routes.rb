@@ -4,10 +4,12 @@ HackerAcademy::Application.routes.draw do
   resources :posts
 
   devise_for :users, :controllers => {:registrations => "registrations"}
+  devise_scope :user do
+    match '/dosignup' => 'registrations#quick_signup_page'
+    match '/quickreg' => 'registrations#quick_signup'
+  end
 
   resources :users
-
-  #match 'page/:name' => 'page#show'
 
   root :to => 'page#show', :name => 'home'
 
