@@ -1,0 +1,16 @@
+%h1 Available Achievements
+
+%ol#achievements
+  - @achievements.each do |achievement|
+    %li
+      .controls
+        - if can? :update, achievement
+          = link_to 'Edit', edit_achievement_path(achievement)
+        - if can? :destroy, achievement
+          = link_to 'Destroy', achievement, :confirm => 'Are you sure?', :method => :delete
+      .achievement-info
+        %p
+          = link_to achievement.name, achievement
+
+- if can? :create, achievement
+  = link_to 'New achievement', new_achievement_path

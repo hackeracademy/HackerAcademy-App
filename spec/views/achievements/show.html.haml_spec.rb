@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe "achivements/show.html.haml" do
+describe "achievements/show.html.haml" do
   before(:each) do
-    @achivement = assign(:achivement, stub_model(Achivement,
+    @achievement = assign(:achievement, stub_model(Achievement,
       :name => "Name",
       :description => "Description"
     ))

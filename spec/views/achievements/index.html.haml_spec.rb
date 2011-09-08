@@ -1,20 +1,20 @@
 require 'spec_helper'
 
-describe "achivements/index.html.haml" do
+describe "achievements/index.html.haml" do
   before(:each) do
-    assign(:achivements, [
-      stub_model(Achivement,
+    assign(:achievements, [
+      stub_model(Achievement,
         :name => "Name",
         :description => "Description"
       ),
-      stub_model(Achivement,
+      stub_model(Achievement,
         :name => "Name",
         :description => "Description"
       )
     ])
   end
 
-  it "renders a list of achivements" do
+  it "renders a list of achievements" do
     render
     # Run the generator again with the --webrat flag if you want to use webrat matchers
     assert_select "tr>td", :text => "Name".to_s, :count => 2
