@@ -1,0 +1,21 @@
+%h1 Listing achivements
+
+%table
+  %tr
+    %th Name
+    %th Description
+    %th
+    %th
+    %th
+
+  - @achivements.each do |achivement|
+    %tr
+      %td= achivement.name
+      %td= achivement.description
+      %td= link_to 'Show', achivement
+      %td= link_to 'Edit', edit_achivement_path(achivement)
+      %td= link_to 'Destroy', achivement, :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New Achivement', new_achivement_path
