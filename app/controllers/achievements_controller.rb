@@ -44,7 +44,9 @@ class AchievementsController < ApplicationController
   # POST /achievements.xml
   def create
     @achievement = Achievement.new(params[:achievement])
-
+    if params[:user_ids]
+      @achievement.users = User.find(params[:user_ids])
+    end
     respond_to do |format|
       if @achievement.save
         format.html { redirect_to(@achievement, :notice => 'Achievement was successfully created.') }
@@ -60,7 +62,9 @@ class AchievementsController < ApplicationController
   # PUT /achievements/1.xml
   def update
     @achievement = Achievement.find(params[:id])
-
+    if params[:user_ids]
+      @achievement.users = User.find(params[:user_ids])
+    end
     respond_to do |format|
       if @achievement.update_attributes(params[:achievement])
         format.html { redirect_to(@achievement, :notice => 'Achievement was successfully updated.') }

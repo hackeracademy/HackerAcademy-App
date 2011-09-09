@@ -26,7 +26,8 @@ describe AchievementsController do
   def valid_attributes
     {
       :name => "Some Achievement",
-      :description => "For being rad"
+      :description => "For being rad",
+      :value => 100
     }
   end
 

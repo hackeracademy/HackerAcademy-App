@@ -44,6 +44,9 @@ class UsersController < ApplicationController
   # POST /users.xml
   def create
     @user = User.new(params[:user])
+    if params[:achievement_ids]
+      @user.achievements = Achievement.find(params[:achievement_ids])
+    end
 
     respond_to do |format|
       if @user.save
@@ -62,6 +65,9 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     authorize! :update, @user
     params[:user].delete(:password) if params[:user][:password].blank?
+    if params[:achievement_ids]
+      @user.achievements = Achievement.find(params[:achievement_ids])
+    end
     respond_to do |format|
       if @user.update_attributes(params[:user])
         format.html { redirect_to(@user, :notice => 'User was successfully updated.') }

@@ -10,7 +10,13 @@
     = f.label :name
     = f.text_field :name
   .field
+    = f.label :value
+    = f.text_field :value
+  .field
     = f.label :description
-    = f.text_field :description
+    = f.text_area :description
+  .field
+    = f.label :users
+    = select_tag("user_ids[]", options_for_select(User.all_ids, @achievement.user_ids), {:multiple => true, :size => 10})
   .actions
     = f.submit 'Save'
