@@ -1,5 +1,5 @@
 HackerAcademy::Application.routes.draw do
-  resources :achivements
+  resources :achievements
 
   resources :contests
 
