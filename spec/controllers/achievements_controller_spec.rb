@@ -24,7 +24,10 @@ describe AchievementsController do
   # Achievement. As you add validations to Achievement, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    {}
+    {
+      :name => "Some Achievement",
+      :description => "For being rad"
+    }
   end
 
   describe "GET index" do
@@ -44,14 +47,35 @@ describe AchievementsController do
   end
 
   describe "GET new" do
+    it "should fail when not logged in" do
+      get :new
+      assigns(:achievement).should be_nil
+      response.should redirect_to(new_user_session_path)
+    end
+
+    it "should fail when logged in as non-admin" do
+      sign_in get_user
+      get :new
+      assigns(:achievement).should be_nil
+    end
+
     it "assigns a new achievement as @achievement" do
+      sign_in get_admin_user
       get :new
       assigns(:achievement).should be_a_new(Achievement)
     end
   end
 
   describe "GET edit" do
+    it "should fail when not logged in" do
+      achievement = Achievement.create! valid_attributes
+      get :edit, :id => achievement.id.to_s
+      assigns(:achievement).should be_nil
+      response.should redirect_to(new_user_session_path)
+    end
+
     it "assigns the requested achievement as @achievement" do
+      sign_in get_admin_user
       achievement = Achievement.create! valid_attributes
       get :edit, :id => achievement.id.to_s
       assigns(:achievement).should eq(achievement)
@@ -60,19 +84,34 @@ describe AchievementsController do
 
   describe "POST create" do
     describe "with valid params" do
+      it "should fail when not logged in" do
+        post :create, :achievement => valid_attributes
+        assigns(:achievement).should be_nil
+        response.should redirect_to(new_user_session_path)
+      end
+
+      it "should fail when logged in as non-admin" do
+        sign_in get_user
+        post :create, :achievement => valid_attributes
+        assigns(:achievement).should be_nil
+      end
+
       it "creates a new Achievement" do
+        sign_in get_admin_user
         expect {
           post :create, :achievement => valid_attributes
         }.to change(Achievement, :count).by(1)
       end
 
       it "assigns a newly created achievement as @achievement" do
+        sign_in get_admin_user
         post :create, :achievement => valid_attributes
         assigns(:achievement).should be_a(Achievement)
         assigns(:achievement).should be_persisted
       end
 
       it "redirects to the created achievement" do
+        sign_in get_admin_user
         post :create, :achievement => valid_attributes
         response.should redirect_to(Achievement.last)
       end
@@ -80,6 +119,7 @@ describe AchievementsController do
 
     describe "with invalid params" do
       it "assigns a newly created but unsaved achievement as @achievement" do
+        sign_in get_admin_user
         # Trigger the behavior that occurs when invalid params are submitted
         Achievement.any_instance.stub(:save).and_return(false)
         post :create, :achievement => {}
@@ -87,6 +127,7 @@ describe AchievementsController do
       end
 
       it "re-renders the 'new' template" do
+        sign_in get_admin_user
         # Trigger the behavior that occurs when invalid params are submitted
         Achievement.any_instance.stub(:save).and_return(false)
         post :create, :achievement => {}
@@ -97,6 +138,19 @@ describe AchievementsController do
 
   describe "PUT update" do
     describe "with valid params" do
+      it "should fail when not logged in" do
+        achievement = Achievement.create! valid_attributes
+        put :update, :id => achievement.id, :achievement => {:name => "New Name"}
+        response.should redirect_to(new_user_session_path)
+      end
+
+      it "should fail when logged in as non-admin" do
+        sign_in get_user
+        achievement = Achievement.create! valid_attributes
+        achievement.should_receive(:update_attributes).never
+        put :update, :id => achievement.id, :achievement => {:name => "New Name"}
+      end
+
       it "updates the requested achievement" do
         achievement = Achievement.create! valid_attributes
         # Assuming there are no other achievements in the database, this
@@ -104,16 +158,19 @@ describe AchievementsController do
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
         Achievement.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
+        sign_in get_admin_user
         put :update, :id => achievement.id, :achievement => {'these' => 'params'}
       end
 
       it "assigns the requested achievement as @achievement" do
+        sign_in get_admin_user
         achievement = Achievement.create! valid_attributes
         put :update, :id => achievement.id, :achievement => valid_attributes
         assigns(:achievement).should eq(achievement)
       end
 
       it "redirects to the achievement" do
+        sign_in get_admin_user
         achievement = Achievement.create! valid_attributes
         put :update, :id => achievement.id, :achievement => valid_attributes
         response.should redirect_to(achievement)
@@ -122,6 +179,7 @@ describe AchievementsController do
 
     describe "with invalid params" do
       it "assigns the achievement as @achievement" do
+        sign_in get_admin_user
         achievement = Achievement.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Achievement.any_instance.stub(:save).and_return(false)
@@ -130,6 +188,7 @@ describe AchievementsController do
       end
 
       it "re-renders the 'edit' template" do
+        sign_in get_admin_user
         achievement = Achievement.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Achievement.any_instance.stub(:save).and_return(false)
@@ -140,7 +199,24 @@ describe AchievementsController do
   end
 
   describe "DELETE destroy" do
+    it "should fail when not logged in" do
+      achievement = Achievement.create! valid_attributes
+      expect {
+        delete :destroy, :id => achievement.id.to_s
+      }.to change(Achievement, :count).by(0)
+      response.should redirect_to(new_user_session_path)
+    end
+
+    it "should fail when logged in as non-admin" do
+      sign_in get_user
+      achievement = Achievement.create! valid_attributes
+      expect {
+        delete :destroy, :id => achievement.id.to_s
+      }.to change(Achievement, :count).by(0)
+    end
+
     it "destroys the requested achievement" do
+      sign_in get_admin_user
       achievement = Achievement.create! valid_attributes
       expect {
         delete :destroy, :id => achievement.id.to_s
@@ -148,6 +224,7 @@ describe AchievementsController do
     end
 
     it "redirects to the achievements list" do
+      sign_in get_admin_user
       achievement = Achievement.create! valid_attributes
       delete :destroy, :id => achievement.id.to_s
       response.should redirect_to(achievements_url)
