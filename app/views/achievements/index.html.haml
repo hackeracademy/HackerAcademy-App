@@ -9,8 +9,8 @@
         - if can? :destroy, achievement
           = link_to 'Destroy', achievement, :confirm => 'Are you sure?', :method => :delete
       .achievement-info
-        %p
-          = link_to achievement.name, achievement
+        %h2= link_to achievement.name, achievement
+        %p= achievement.description
 
-- if can? :create, achievement
+- if can? :create, Achievement
   = link_to 'New achievement', new_achievement_path
