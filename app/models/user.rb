@@ -7,7 +7,17 @@ class User
     :rememberable, :trackable, :validatable, :lockable
 
   field :name
-  field :is_admin, type: Boolean, default: false
+  field :is_admin, :type => Boolean, :default => false
+
+  has_and_belongs_to_many :achievements
+
+  def total_score
+    self.achievements.map(&:value).sum
+  end
+
+  def self.all_ids
+    self.find(:all).collect {|u| [u.name, u.id]}
+  end
 
 end
 

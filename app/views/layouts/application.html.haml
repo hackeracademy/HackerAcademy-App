@@ -44,6 +44,8 @@
           %li(class="#{'active' if current_page?("/contact")}")
             = link_to 'Contact', "/contact"
           %li &nbsp;
+          %li(class="#{'active' if current_page?('/achievements')}")
+            = link_to 'Achievements', achievements_path
           - unless user_signed_in?
             %li(class="#{'active' if current_page?(new_user_session_path)}")
               = link_to 'Log in', new_user_session_path

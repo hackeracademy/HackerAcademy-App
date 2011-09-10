@@ -1,4 +1,6 @@
 HackerAcademy::Application.routes.draw do
+  resources :achievements
+
   resources :contests
 
   resources :posts
