@@ -44,7 +44,7 @@ class UsersController < ApplicationController
   # POST /users.xml
   def create
     @user = User.new(params[:user])
-    if params[:achievement_ids]
+    if params[:achievement_ids] and can?(:manage, Achievement)
       @user.achievements = Achievement.find(params[:achievement_ids])
     end
 
@@ -65,7 +65,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     authorize! :update, @user
     params[:user].delete(:password) if params[:user][:password].blank?
-    if params[:achievement_ids]
+    if params[:achievement_ids] and can?(:manage, Achievement)
       @user.achievements = Achievement.find(params[:achievement_ids])
     end
     respond_to do |format|

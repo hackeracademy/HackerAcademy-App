@@ -15,8 +15,9 @@
     .field
       = f.label :password
       = f.text_field :password, :type => :password
-    .field
-      = f.label :achievements
-      = select_tag("achievement_ids[]", options_for_select(Achievement.all_ids, @user.achievement_ids), {:multiple => true, :size => 6})
+    - if can? :manage, Achievement
+      .field
+        = f.label :achievements
+        = select_tag("achievement_ids[]", options_for_select(Achievement.all_ids, @user.achievement_ids), {:multiple => true, :size => 6})
 
     = f.submit
