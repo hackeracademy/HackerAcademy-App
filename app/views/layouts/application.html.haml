@@ -46,6 +46,8 @@
           %li &nbsp;
           %li(class="#{'active' if current_page?('/achievements')}")
             = link_to 'Achievements', achievements_path
+          %li(class="#{'active' if current_page?('/leaderboard')}")
+            = link_to 'Leaderboard', '/leaderboard'
           - unless user_signed_in?
             %li(class="#{'active' if current_page?(new_user_session_path)}")
               = link_to 'Log in', new_user_session_path
