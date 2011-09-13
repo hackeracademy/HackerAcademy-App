@@ -1,7 +1,8 @@
 %h1 Leaderboard
 %ol
   - User.find(:all).sort_by(&:total_score).reverse.each do |user|
-    %li
-      = link_to user.name, user
-      = "  [#{user.total_score}]"
+    - unless user.is_admin
+      %li
+        = link_to user.name, user
+        = "  [#{user.total_score}]"
 
