@@ -1,5 +1,5 @@
 %ol#posts
-  - @posts.each do |post|
+  - @posts.reverse.each do |post|
     %li
       .controls
         - if can? :edit, post
