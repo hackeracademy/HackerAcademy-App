@@ -46,6 +46,9 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
     if params[:achievement_ids] and can?(:manage, Achievement)
       @user.achievements = Achievement.find(params[:achievement_ids])
+    else
+      welcome = Achievement.first(conditions: {name: "Welcome to HA!"})
+      @user.achievements = [ welcome ] if welcome
     end
 
     respond_to do |format|

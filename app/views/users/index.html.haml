@@ -11,6 +11,6 @@
       .user-info
         %p
           = link_to user.name, user
-          = "[#{user.total_score}]"
+          = "Lvl. #{user.level} [#{user.total_score}pts]"
           - if user.is_admin
             [admin]
