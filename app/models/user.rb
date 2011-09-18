@@ -15,6 +15,10 @@ class User
     self.achievements.map(&:value).sum
   end
 
+  def level
+    1 + (total_score / 512)
+  end
+
   def self.all_ids
     self.find(:all).collect {|u| [u.name, u.id]}
   end

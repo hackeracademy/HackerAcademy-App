@@ -4,5 +4,5 @@
     - unless user.is_admin
       %li
         = link_to user.name, user
-        = "  [#{user.total_score}]"
+        = " Lvl. #{user.level} [#{user.total_score}pts]"
 
