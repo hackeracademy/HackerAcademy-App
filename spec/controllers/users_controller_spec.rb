@@ -93,6 +93,13 @@ describe UsersController do
         put :update, :id => user.id, :user => {'name' => 'foobar'}
       end
 
+      it "should prevent self-updates from adding achievements" do
+        user = get_user
+        sign_in user
+        user.should_receive(:update_attributes).never
+        put :update, :id => user.id, :user => {:achievement_ids => [1]}
+      end
+
       it "updates the requested user" do
         sign_in get_admin_user
         user = User.create! valid_attributes

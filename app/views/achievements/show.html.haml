@@ -1,0 +1,13 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @achievement.name
+%p
+  %b Description:
+  = @achievement.description
+
+- if can? :manage, Achievement
+  = link_to 'Edit', edit_achievement_path(@achievement)
+  \|
+= link_to 'Back', achievements_path
