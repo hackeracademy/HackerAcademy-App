@@ -13,6 +13,7 @@ HackerAcademy::Application.routes.draw do
 
   root :to => 'page#show', :name => 'home'
 
+  post '/redeem' => 'page#redeem'
   match ':name' => 'page#show'
 
   # The priority is based upon order of creation:
@@ -72,3 +73,4 @@ HackerAcademy::Application.routes.draw do
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id(.:format)))'
 end
+

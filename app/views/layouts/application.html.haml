@@ -53,7 +53,9 @@
               = link_to 'Log in', new_user_session_path
           - else
             %li
-              = link_to 'Account', edit_user_path(current_user)
+              = link_to 'Account', edit_user_registration_path(current_user)
+            %li
+              = link_to 'Redeem Code', '/redeem'
             %li
               = link_to 'Log out', destroy_user_session_path
     %section#main
