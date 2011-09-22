@@ -1,12 +1,13 @@
 %h2= "Edit #{resource_name.to_s.humanize}"
+%h3= "Level #{resource.level} [#{resource.total_score}pts]"
 
 = form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f|
   = devise_error_messages!
 
   %p
-    = f.label :username
+    = f.label :name
     %br/
-    = f.text_field :username
+    = f.text_field :name
 
   %p
     = f.label :email
