@@ -11,8 +11,8 @@ class PageController < ApplicationController
       redirect_to new_user_session_path, alert: 'You need to log in first'
       return
     end
-    cheevo = Achievement.first(conditions: {name: 'Second Meeting!'})
-    if params[:code].downcase.gsub(/\s+/, '') == 'skytaffy'
+    cheevo = Achievement.first(conditions: {name: 'Third Meeting!'})
+    if params[:code].downcase.gsub(/\s+/, '') == 'holyhandgrenade'
       current_user.achievements << cheevo
     else
       redirect_to "/redeem", alert: 'Sorry, invalid code :('
