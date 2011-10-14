@@ -2,6 +2,8 @@ HackerAcademy::Application.routes.draw do
   resources :achievements
 
   resources :contests
+  post '/contests/problem' => 'contests#problem'
+  post '/contests/solution' => 'contests#solution'
 
   resources :posts
 
@@ -73,4 +75,3 @@ HackerAcademy::Application.routes.draw do
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id(.:format)))'
 end
-

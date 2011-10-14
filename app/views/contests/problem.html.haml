@@ -1,0 +1,11 @@
+%h1 Problem Input:
+!= @puzzle
+
+%p You have 60 seconds to submit a solution:
+= form_tag("/contests/solution", method: 'POST') do
+  = hidden_field_tag :level, @level
+  = hidden_field_tag :contest, @contest.id
+  .field
+    = label_tag :solution
+    = text_field_tag :solution
+  = submit_tag 'Check solution'
