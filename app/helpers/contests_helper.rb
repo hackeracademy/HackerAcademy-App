@@ -120,21 +120,29 @@ module ContestsHelper
         puzzle_row = puzzle[row]
         if puzzle_row[col..col+word.length-1] == word
           next
+        else
+          Rails.logger.debug("#{word} != #{puzzle_row[col..col+word.length-1]}")
         end
 
         horiz_start = col-word.length+1
         if (horiz_start >= 0) and (puzzle_row[horiz_start..col] == word.reverse)
           next
+        else
+          Rails.logger.debug("#{word} != #{puzzle_row[horiz_start..col]}")
         end
 
         puzzle_col = puzzle.map {|r| r[col]}
         if puzzle_col[row..row+word.length-1].join('') == word
           next
+        else
+          Rails.logger.debug("#{word} != #{puzzle_col[row..row+word.length-1].join('')}")
         end
 
         vert_start = row-word.length+1
         if (vert_start >= 0) and (puzzle_col[vert_start..row].join('') == word.reverse)
           next
+        else
+          Rails.logger.debug("#{word} != #{puzzle_col[vert_start..row].join('')}")
         end
 
         return false
@@ -186,7 +194,7 @@ module ContestsHelper
       return {words: words, puzzle: text.map{|row| row.join ''}.join("\n") }
     end
 
-    def off_by_one? word1, word2
+    def self.off_by_one? word1, word2
       if word1 == word2
         return true
       end

@@ -140,7 +140,7 @@ class ContestsController < ApplicationController
 
   def solution
     contest = Contest.find(params[:contest])
-    puzzle = params[:puzzle].gsub('N', "\n").gsub('-', ' ')
+    puzzle = params[:puzzle].gsub('N', "\n")
     words = params[:words].split('+')
     prob = {puzzle: puzzle, words: words}
     msg = puzzle + words.join('')
@@ -162,7 +162,7 @@ class ContestsController < ApplicationController
     if contest.puzzle_ident == 1
       if level == '0'
         soln = params[:solution].split(/\s*,\s*/).map(&:to_i)
-        if soln.length != prob[:words]
+        if soln.length != prob[:words].length
           correct = false
         else
           correct = ContestsHelper::Level1.verify_level0(
@@ -173,8 +173,7 @@ class ContestsController < ApplicationController
         soln = params[:solution].split(/\s*;\s*/).map do |pair|
           pair.split(/\s*,\s*/).map(&:to_i)
         end
-        if soln.length != prob[:words]
-          Rails.logger.debug("Wrong length")
+        if soln.length != prob[:words].length
           correct = false
         else
           soln = prob[:words].sort.zip(soln)
@@ -187,7 +186,7 @@ class ContestsController < ApplicationController
         soln = params[:solution].split(/\s*;\s*/).map do |pair|
           pair.split(/\s*,\s*/).map(&:to_i)
         end
-        if soln.length != prob[:words]
+        if soln.length != prob[:words].length
           correct = false
         else
           soln = prob[:words].sort.zip(soln)
