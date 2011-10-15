@@ -130,7 +130,7 @@ class ContestsController < ApplicationController
       end
       session[:time] = Time.now.to_i
       msg = @prob[:puzzle] + @prob[:words].join('')
-      key = ENV['HMAC_KEY']
+      key = ENV['HMAC_KEY'] || "derp"
       session[:key] = OpenSSL::HMAC.hexdigest('sha256', msg, key)
       render action: :problem
     else
@@ -144,7 +144,7 @@ class ContestsController < ApplicationController
     words = params[:words].split('+')
     prob = {puzzle: puzzle, words: words}
     msg = puzzle + words.join('')
-    key = ENV['HMAC_KEY']
+    key = ENV['HMAC_KEY'] || "derp"
     hmac = OpenSSL::HMAC.hexdigest('sha256', msg, key)
     if hmac != session[:key]
       redirect_to contest, alert: 'Cheating detected...'
