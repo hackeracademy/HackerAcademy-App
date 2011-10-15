@@ -35,8 +35,6 @@ The next dojo is on <em>October 15th</em>. <br /> Come and eat, code, and be mer
             = link_to 'Destroy', contest, :confirm => 'Are you sure?', :method => :delete
         .contest-info
           %p= link_to contest.description, contest
-          %p= "Starts #{contest.start.pretty_inspect}"
-          %p= "Finishes #{contest.end.pretty_inspect}"
           %p
             = duration_between DateTime.now, contest.end
             remaining
