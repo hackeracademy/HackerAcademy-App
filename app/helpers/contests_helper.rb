@@ -115,7 +115,7 @@ module ContestsHelper
       puzzle = puzzle_chars.split /\n/
       word_indices.each do |wsym, loc|
         word = wsym.to_s
-        col, row = loc
+        row, col = loc
 
         puzzle_row = puzzle[row]
         if puzzle_row[col..col+word.length-1] == word
@@ -217,7 +217,7 @@ module ContestsHelper
       puzzle = puzzle_chars.split /\n/
       word_indices.each do |wsym, loc|
         word = wsym.to_s
-        col, row = loc
+        row, col = loc
 
         puzzle_row = puzzle[row]
         if off_by_one? puzzle_row[col..col+word.length-1], word
