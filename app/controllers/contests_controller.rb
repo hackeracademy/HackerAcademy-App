@@ -50,9 +50,9 @@ class ContestsController < ApplicationController
         )
         @puzzle = <<-EOS
         <p>Find the needles in the haystack!</p>
-          
+
         <p>
-          Given a list of words (needles) and a string of text (haystack), return the location of each needle (or its reverse) in the haystack. 
+          Given a list of words (needles) and a string of text (haystack), return the location of each needle (or its reverse) in the haystack.
           Return the index for the first character of each word, with the words in alphabetical order. Return -1 if a word is not found.
           A needle will only appear once.
         </p>
@@ -63,7 +63,7 @@ class ContestsController < ApplicationController
         <div class="data"><code>xxxalphaxxxatebxxx</code></div>
         <h4>Solution</h4>
         <div class="data"><code>3, 14, -1</code></div>
-        
+
         <h2>Actual Problem</h2>
         <h4>Needles</h4>
         <div class="data"><code>#{@prob[:words].map{|w| "#{w}"}.join('<br>')}</code></div>
@@ -77,9 +77,9 @@ class ContestsController < ApplicationController
         @puzzle = <<-EOS
         <p>Just like before, but now, in 2 dimensions!</p>
         <p>
-          Given a list of words (needles) and a blob of text (haystack), return the location of each needle in the haystack. 
+          Given a list of words (needles) and a blob of text (haystack), return the location of each needle in the haystack.
           Words can appear horizontally (forwards and backwards), vertically (up and down), and diagonally (NE, SE, SW, NW).
-          Return the index for the first character of each word, with the words in alphabetical order. 
+          Return the index for the first character of each word, with the words in alphabetical order.
           Return -1 if a word is not found. A needle will only appear once.
         </p>
         <h2>Sample Problem</h2>
@@ -89,7 +89,7 @@ class ContestsController < ApplicationController
         <div class="data"><code>alpha<br>toooo<br>eoooo<br>boooo<br>ooooo</code></div>
         <h4>Solution</h4>
         <div class="data"><code>0,0; 3,0; -1;</code></div>
-        
+
         <h2>Actual Problem</h2>
         <h4>Needles</h4>
         <div class="data"><code>#{@prob[:words].map{|w| "#{w}"}.join('<br>')}</code></div>
@@ -103,9 +103,9 @@ class ContestsController < ApplicationController
         @puzzle = <<-EOS
         <p>Like the last problem, but now, needles may have one character wrong!</p>
         <p>
-          Given a list of words (needles) and a blob of text (haystack), return the location of each needle in the haystack. 
+          Given a list of words (needles) and a blob of text (haystack), return the location of each needle in the haystack.
           Words can appear horizontally (forwards and backwards), vertically (up and down), and diagonally (NE, SE, SW, NW).
-          Return the index for the first character of each word, with the words in alphabetical order. 
+          Return the index for the first character of each word, with the words in alphabetical order.
           Return -1 if a word is not found. A needle will only appear once.
           <br/><br/>
           Words can have up to one character wrong, ex. 'alpha' (needle) may be 'alph<em>o</em>' in the haystack.
@@ -117,7 +117,7 @@ class ContestsController < ApplicationController
         <div class="data"><code>alpho<br>toooo<br>eoooo<br>roooo<br>ooooo</code></div>
         <h4>Solution</h4>
         <div class="data"><code>0,0; 3,0; -1;</code></div>
-        
+
         <h2>Actual Problem</h2>
         <h4>Needles</h4>
         <div class="data"><code>#{@prob[:words].map{|w| "#{w}"}.join('<br>')}</code></div>
@@ -264,3 +264,4 @@ class ContestsController < ApplicationController
     end
   end
 end
+

@@ -1,13 +1,14 @@
-%h1 
+%h1
   Problem
   =@level
-
 != @puzzle
 
 %p You have 60 seconds to submit a solution:
 = form_tag("/contests/solution", method: 'POST') do
   = hidden_field_tag :level, @level
   = hidden_field_tag :contest, @contest.id
+  = hidden_field_tag :puzzle, @prob[:puzzle].gsub(/\n/, 'N').gsub(' ', '-')
+  = hidden_field_tag :words, @prob[:words].join('+')
   .field
     = label_tag :solution
     %br
