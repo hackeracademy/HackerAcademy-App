@@ -79,17 +79,17 @@ module ContestsHelper
         horiz = rand > 0.5
         if horiz
           while (col + word.length >= len or
-                 text[row][col..col+word.length].any? {|x| !x.nil? })
+                 text[row][col..col+word.length-1].any? {|x| !x.nil? })
             row, col = rand(len), rand(len)
           end
           if fwd
-            text[row][col..col+word.length] = word.split //
+            text[row][col..col+word.length-1] = word.split //
           else
-            text[row][col..col+word.length] = word.reverse.split //
+            text[row][col..col+word.length-1] = word.reverse.split //
           end
         else
           while (row + word.length >= len or
-                 text[row..row+word.length].map{|r| r[col]}.any? {|x| !x.nil? })
+                 text[row..row+word.length-1].map{|r| r[col]}.any? {|x| !x.nil? })
             row, col = rand(len), rand(len)
           end
           chars = []
@@ -98,13 +98,13 @@ module ContestsHelper
           else
             chars = word.split //
           end
-          text[row..row+word.length].map!{|r| r[col] = chars.pop}
+          text[row..row+word.length-1].map!{|r| r[col] = chars.pop}
         end
       end
       text.each_index do |row|
         text[row].each_index do |col|
           if text[row][col].nil?
-            text[row][col] = random_letter
+            text[row][col] = '_' # random_letter
           end
         end
       end
@@ -154,17 +154,17 @@ module ContestsHelper
         horiz = rand > 0.5
         if horiz
           while (col + word.length >= len or
-                 text[row][col..col+word.length].any? {|x| !x.nil? })
+                 text[row][col..col+word.length-1].any? {|x| !x.nil? })
             row, col = rand(len), rand(len)
           end
           if fwd
-            text[row][col..col+word.length] = word.split //
+            text[row][col..col+word.length-1] = word.split //
           else
-            text[row][col..col+word.length] = word.reverse.split //
+            text[row][col..col+word.length-1] = word.reverse.split //
           end
         else
           while (row + word.length >= len or
-                 text[row..row+word.length].map{|r| r[col]}.any? {|x| !x.nil? })
+                 text[row..row+word.length-1].map{|r| r[col]}.any? {|x| !x.nil? })
             row, col = rand(len), rand(len)
           end
           chars = []
@@ -173,7 +173,7 @@ module ContestsHelper
           else
             chars = word.split //
           end
-          text[row..row+word.length].map!{|r| r[col] = chars.pop}
+          text[row..row+word.length-1].map!{|r| r[col] = chars.pop}
         end
       end
       text.each_index do |row|
