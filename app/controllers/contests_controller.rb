@@ -76,13 +76,13 @@ class ContestsController < ApplicationController
         <code class="problem">#{@prob[:puzzle]}</code>
         EOS
       else
-        redirect_to contests_path, alert: "Wrong level #{level}"
+        redirect_to @contest, alert: "Wrong level #{level}"
       end
       session[:problem] = Marshal.dump(@prob)
       session[:time] = Time.now.to_i
       render action: :problem
     else
-      redirect_to contests_path, alert: "Wrong puzzle ident #{contest_ident}"
+      redirect_to @contest, alert: "Wrong puzzle ident #{contest_ident}"
     end
   end
 
@@ -90,31 +90,50 @@ class ContestsController < ApplicationController
     contest = Contest.find(params[:contest])
     prob = Marshal.load(session[:problem])
     level = params[:level]
-    time_elapsed = Time.now.to_i - session[:time]
-    if time_elapsed > 60
-      redirect_to @contest, alert: 'Sorry, you took too long with your answer'
+    @time_elapsed = Time.now.to_i - session[:time]
+    if @time_elapsed > 60
+      redirect_to contest, alert: 'Sorry, you took too long with your answer'
     end
     if contest.puzzle_ident == 1
       if level == '0'
         soln = params[:solution].split(/\s*,\s*/).map(&:to_i)
-        @correct = ContestsHelper::Level1.verify_level0(
-          Hash[*prob[:words].sort.zip(soln).flatten], prob[:puzzle]
-        )
+        if soln.length != prob[:words]
+          correct = false
+        else
+          correct = ContestsHelper::Level1.verify_level0(
+            Hash[*prob[:words].sort.zip(soln).flatten], prob[:puzzle]
+          )
+        end
       elsif level == '1'
         soln = params[:solution].split(/\s*;\s*/).map do |pair|
           pair.split(/\s*,\s*/).map(&:to_i)
         end
-        @correct = ContestsHelper::Level1.verify_level1(
-          soln.inject({}) {|h,e| h[e.first] = e.second; h}, prob[:puzzle]
-        )
+        if soln.length != prob[:words]
+          correct = false
+        else
+          soln = prob[:words].sort.zip(soln)
+          correct = ContestsHelper::Level1.verify_level1(
+            soln.inject({}) {|h,e| h[e.first] = e.second; h}, prob[:puzzle]
+          )
+        end
       elsif level == '2'
         soln = params[:solution].split(/\s*;\s*/).map do |pair|
           pair.split(/\s*,\s*/).map(&:to_i)
         end
-        @correct = ContestsHelper::Level1.verify_level2(
-          soln.inject({}) {|h,e| h[e.first] = e.second; h}, prob[:puzzle]
-        )
+        if soln.length != prob[:words]
+          correct = false
+        else
+          soln = prob[:words].sort.zip(soln)
+          correct = ContestsHelper::Level1.verify_level2(
+            soln.inject({}) {|h,e| h[e.first] = e.second; h}, prob[:puzzle]
+          )
+        end
       end
+    end
+    if correct
+      render action: :solution
+    else
+      redirect_to contest, alert: 'Sorry, your solution was incorrect'
     end
   end
 
