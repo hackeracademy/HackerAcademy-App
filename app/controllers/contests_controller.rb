@@ -49,12 +49,25 @@ class ContestsController < ApplicationController
           puzzle1_length, puzzle1_words
         )
         @puzzle = <<-EOS
-        <p>Find the following words in the text string and give the numerical
-          indicies in alphabetical order, seperated by commas (e.g 17, 4, 2).
+        <p>Find the needles in the haystack!</p>
+          
+        <p>
+          Given a list of words (needles) and a string of text (haystack), return the location of each needle (or its reverse) in the haystack. 
+          Return the index for the first character of each word, with the words in alphabetical order. Return -1 if a word is not found.
+          A needle will only appear once.
         </p>
-        Needles:
+        <h2>Sample Problem</h2>
+        <h4>Needles</h4>
+        <div class="data"><code>beta<br>alpha<br>gamma</code></div>
+        <h4>Haystack</h4>
+        <div class="data"><code>xxxalphaxxxatebxxx</code></div>
+        <h4>Solution</h4>
+        <div class="data"><code>3, 14, -1</code></div>
+        
+        <h2>Actual Problem</h2>
+        <h4>Needles</h4>
         <div class="data"><code>#{@prob[:words].map{|w| "#{w}"}.join('<br>')}</code></div>
-        Haystack:
+        <h4>Haystack</h4>
         <div class="data"><code>#{@prob[:puzzle]}</code></div>
         EOS
       elsif @level == '1'
@@ -62,27 +75,54 @@ class ContestsController < ApplicationController
           puzzle2_length, puzzle2_words
         )
         @puzzle = <<-EOS
-        <p>Find the following words in the text string and give the numerical
-           indicies in alphabetical order as row,col comma-seperated pairs, with
-           each pair seperated by semicolons (e.g 5,6; 1,10; 8,2).
+        <p>Just like before, but now, in 2 dimensions!</p>
+        <p>
+          Given a list of words (needles) and a blob of text (haystack), return the location of each needle in the haystack. 
+          Words can appear horizontally (forwards and backwards), vertically (up and down), and diagonally (NE, SE, SW, NW).
+          Return the index for the first character of each word, with the words in alphabetical order. 
+          Return -1 if a word is not found. A needle will only appear once.
         </p>
-        Needles:
-        <ul>#{@prob[:words].map{|w| "<li>#{w}</li>"}.join('')}</ul>
-        Haystack:
-        <code class="problem">#{@prob[:puzzle]}</code>
+        <h2>Sample Problem</h2>
+        <h4>Needles</h4>
+        <div class="data"><code>beta<br>alpha<br>gamma</code></div>
+        <h4>Haystack</h4>
+        <div class="data"><code>alpha<br>toooo<br>eoooo<br>boooo<br>ooooo</code></div>
+        <h4>Solution</h4>
+        <div class="data"><code>0,0; 3,0; -1;</code></div>
+        
+        <h2>Actual Problem</h2>
+        <h4>Needles</h4>
+        <div class="data"><code>#{@prob[:words].map{|w| "#{w}"}.join('<br>')}</code></div>
+        <h4>Haystack</h4>
+        <div class="data"><code>#{@prob[:puzzle]}</code></div>
         EOS
       elsif @level == '2'
         @prob = ContestsHelper::Level1.generate_level1(
           puzzle3_length, puzzle3_words
         )
         @puzzle = <<-EOS
-        <p>Find the following words in the text string and give the numerical
-          indicies in alphabetical order as row,col comma-seperated pairs, with
-          each pair seperated by semicolons (e.g 5,6; 1,10; 8,2). This time,
-          however, they words will have up to one character wrong!
+        <p>Like the last problem, but now, needles may have one character wrong!</p>
+        <p>
+          Given a list of words (needles) and a blob of text (haystack), return the location of each needle in the haystack. 
+          Words can appear horizontally (forwards and backwards), vertically (up and down), and diagonally (NE, SE, SW, NW).
+          Return the index for the first character of each word, with the words in alphabetical order. 
+          Return -1 if a word is not found. A needle will only appear once.
+          <br/><br/>
+          Words can have up to one character wrong, ex. 'alpha' (needle) may be 'alph<em>o</em>' in the haystack.
         </p>
-        <ul>#{@prob[:words].map{|w| "<li>#{w}</li>"}.join('')}</ul>
-        <textarea><code class="problem">#{@prob[:puzzle]}</code></textarea>
+        <h2>Sample Problem</h2>
+        <h4>Needles</h4>
+        <div class="data"><code>beta<br>alpha<br>gamma</code></div>
+        <h4>Haystack</h4>
+        <div class="data"><code>alpho<br>toooo<br>eoooo<br>roooo<br>ooooo</code></div>
+        <h4>Solution</h4>
+        <div class="data"><code>0,0; 3,0; -1;</code></div>
+        
+        <h2>Actual Problem</h2>
+        <h4>Needles</h4>
+        <div class="data"><code>#{@prob[:words].map{|w| "#{w}"}.join('<br>')}</code></div>
+        <h4>Haystack</h4>
+        <div class="data"><code>#{@prob[:puzzle]}</code></div>
         EOS
       else
         redirect_to @contest, alert: "Invalid level"

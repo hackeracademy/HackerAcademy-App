@@ -10,5 +10,6 @@
   = hidden_field_tag :contest, @contest.id
   .field
     = label_tag :solution
-    = text_area_tag :solution
+    %br
+    = text_area_tag :solution, "", :size => "50x20"
   = submit_tag 'Check solution'
