@@ -197,6 +197,7 @@ class ContestsController < ApplicationController
       end
     end
     if correct
+      Pony.mail(:to => 'rafal.dittwald@gmail.com', :cc => 'james.nvc@gmail.com', :from => 'dojobot@hackeracademy.org', :subject => "#{current_user.name} has solved problem #{level} at #{Time.now}")
       redirect_to contest, notice: 'Congratulations! Your solution was correct!'
     else
       redirect_to contest, alert: 'Sorry, your solution was incorrect'
