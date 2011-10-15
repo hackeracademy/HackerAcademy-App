@@ -94,10 +94,10 @@ class ContestsController < ApplicationController
         <h4>Needles</h4>
         <div class="data"><code>#{@prob[:words].map{|w| "#{w}"}.join('<br>')}</code></div>
         <h4>Haystack</h4>
-        <div class="data"><code>#{@prob[:puzzle]}</code></div>
+        <div class="data"><code>#{@prob[:puzzle].split("\n").join("<br>")}</code></div>
         EOS
       elsif @level == '2'
-        @prob = ContestsHelper::Level1.generate_level1(
+        @prob = ContestsHelper::Level1.generate_level2(
           puzzle3_length, puzzle3_words
         )
         @puzzle = <<-EOS
@@ -122,7 +122,7 @@ class ContestsController < ApplicationController
         <h4>Needles</h4>
         <div class="data"><code>#{@prob[:words].map{|w| "#{w}"}.join('<br>')}</code></div>
         <h4>Haystack</h4>
-        <div class="data"><code>#{@prob[:puzzle]}</code></div>
+        <div class="data"><code>#{@prob[:puzzle].split("\n").join("<br>")}</code></div>
         EOS
       else
         redirect_to @contest, alert: "Invalid level"
