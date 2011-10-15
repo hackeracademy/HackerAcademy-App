@@ -13,6 +13,8 @@ HackerAcademy::Application.routes.draw do
 
   #match 'page/:name' => 'page#show'
 
+  match '/dojo' => 'contests#index'
+
   root :to => 'page#show', :name => 'home'
 
   post '/redeem' => 'page#redeem'
