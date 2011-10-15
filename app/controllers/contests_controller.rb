@@ -39,8 +39,8 @@ class ContestsController < ApplicationController
       puzzle1_length = 200
       puzzle1_words = 10
 
-      puzzle2_length = 20
-      puzzle2_words = 1
+      puzzle2_length = 100
+      puzzle2_words = 5
 
       puzzle3_length = 100
       puzzle3_words = 5
@@ -197,7 +197,7 @@ class ContestsController < ApplicationController
       end
     end
     if correct
-      render action: :solution
+      redirect_to contest, notice: 'Congratulations! Your solution was correct!'
     else
       redirect_to contest, alert: 'Sorry, your solution was incorrect'
     end
