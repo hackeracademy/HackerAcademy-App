@@ -1,3 +1,6 @@
+require 'openssl'
+require 'cgi'
+
 class ContestsController < ApplicationController
   protect_from_forgery
   before_filter :authenticate_user!, :except => [:show, :index]
@@ -36,8 +39,8 @@ class ContestsController < ApplicationController
       puzzle1_length = 200
       puzzle1_words = 10
 
-      puzzle2_length = 100
-      puzzle2_words = 5
+      puzzle2_length = 20
+      puzzle2_words = 1
 
       puzzle3_length = 100
       puzzle3_words = 5
@@ -82,6 +85,9 @@ class ContestsController < ApplicationController
         return
       end
       session[:time] = Time.now.to_i
+      msg = @prob[:puzzle] + @prob[:words].join('')
+      key = ENV['HMAC_KEY']
+      session[:key] = OpenSSL::HMAC.hexdigest('sha256', msg, key)
       render action: :problem
     else
       redirect_to @contest, alert: "Invalid contest"
@@ -90,13 +96,23 @@ class ContestsController < ApplicationController
 
   def solution
     contest = Contest.find(params[:contest])
-    prob = params[:prob]
-    @@problems.delete current_user.id
+    puzzle = params[:puzzle].gsub('N', "\n").gsub('-', ' ')
+    words = params[:words].split('+')
+    prob = {puzzle: puzzle, words: words}
+    msg = puzzle + words.join('')
+    key = ENV['HMAC_KEY']
+    hmac = OpenSSL::HMAC.hexdigest('sha256', msg, key)
+    if hmac != session[:key]
+      redirect_to contest, alert: 'Cheating detected...'
+      return
+    end
+    session.delete :key
     level = params[:level]
-    @time_elapsed = Time.now.to_i - session[:time]
+    time_elapsed = Time.now.to_i - session[:time]
     session.delete :time
-    if @time_elapsed > 60
-      redirect_to contest, alert: 'Sorry, you took too long with your answer'
+    if time_elapsed > 600
+      redirect_to contest,
+        alert: "Sorry, you took too long with your answer (#{time_elapsed} seconds)"
       return
     end
     if contest.puzzle_ident == 1
@@ -114,9 +130,11 @@ class ContestsController < ApplicationController
           pair.split(/\s*,\s*/).map(&:to_i)
         end
         if soln.length != prob[:words]
+          Rails.logger.debug("Wrong length")
           correct = false
         else
           soln = prob[:words].sort.zip(soln)
+          Rails.logger.debug(prob)
           correct = ContestsHelper::Level1.verify_level1(
             soln.inject({}) {|h,e| h[e.first] = e.second; h}, prob[:puzzle]
           )
