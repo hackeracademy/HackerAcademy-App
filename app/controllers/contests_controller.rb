@@ -36,8 +36,8 @@ class ContestsController < ApplicationController
     @level = params[:level]
 
     if contest_ident == 1
-      puzzle1_length = 200
-      puzzle1_words = 10
+      puzzle1_length = 350
+      puzzle1_words = 20
 
       puzzle2_length = 100
       puzzle2_words = 5
@@ -197,7 +197,7 @@ class ContestsController < ApplicationController
       end
     end
     if correct
-      Pony.mail(:to => 'rafal.dittwald@gmail.com', :cc => 'james.nvc@gmail.com', :from => 'dojobot@hackeracademy.org', :subject => "#{current_user.name} has solved problem #{level} at #{Time.now}")
+      #Pony.mail(:to => 'rafal.dittwald@gmail.com', :cc => 'james.nvc@gmail.com', :from => 'dojobot@hackeracademy.org', :subject => "#{current_user.name} has solved problem #{level} at #{Time.now}")
       redirect_to contest, notice: 'Congratulations! Your solution was correct!'
       current_user.solved ||= []
       current_user.solved << "dojo#{contest.puzzle_ident}_level#{level}"
@@ -267,5 +267,4 @@ class ContestsController < ApplicationController
     end
   end
 end
-
 
