@@ -7,6 +7,7 @@ class User
     :rememberable, :trackable, :validatable, :lockable
 
   field :name
+  field :rfid
   field :is_admin, :type => Boolean, :default => false
   field :solved, type: Array
 
