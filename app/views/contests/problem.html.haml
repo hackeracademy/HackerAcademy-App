@@ -1,4 +1,7 @@
-%h1 Problem Input:
+%h1 
+  Problem
+  =@level
+
 != @puzzle
 
 %p You have 60 seconds to submit a solution:
@@ -7,5 +10,5 @@
   = hidden_field_tag :contest, @contest.id
   .field
     = label_tag :solution
-    = text_field_tag :solution
+    = text_area_tag :solution
   = submit_tag 'Check solution'

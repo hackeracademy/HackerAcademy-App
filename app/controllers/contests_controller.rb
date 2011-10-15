@@ -49,8 +49,10 @@ class ContestsController < ApplicationController
         <p>Find the following words in the text string and give the numerical
           indicies in alphabetical order, seperated by commas (e.g 17, 4, 2).
         </p>
-        <ul>#{@prob[:words].map{|w| "<li>#{w}</li>"}.join('')}</ul>
-        <code class="problem">#{@prob[:puzzle]}</code>
+        Needles:
+        <div class="data"><code>#{@prob[:words].map{|w| "#{w}"}.join('<br>')}</code></div>
+        Haystack:
+        <div class="data"><code>#{@prob[:puzzle]}</code></div>
         EOS
       elsif @level == '1'
         @prob = ContestsHelper::Level1.generate_level1(
@@ -61,7 +63,9 @@ class ContestsController < ApplicationController
            indicies in alphabetical order as row,col comma-seperated pairs, with
            each pair seperated by semicolons (e.g 5,6; 1,10; 8,2).
         </p>
+        Needles:
         <ul>#{@prob[:words].map{|w| "<li>#{w}</li>"}.join('')}</ul>
+        Haystack:
         <code class="problem">#{@prob[:puzzle]}</code>
         EOS
       elsif @level == '2'
@@ -75,7 +79,7 @@ class ContestsController < ApplicationController
           however, they words will have up to one character wrong!
         </p>
         <ul>#{@prob[:words].map{|w| "<li>#{w}</li>"}.join('')}</ul>
-        <code class="problem">#{@prob[:puzzle]}</code>
+        <textarea><code class="problem">#{@prob[:puzzle]}</code></textarea>
         EOS
       else
         redirect_to @contest, alert: "Invalid level"
