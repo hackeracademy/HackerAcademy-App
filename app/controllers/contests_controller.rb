@@ -199,6 +199,9 @@ class ContestsController < ApplicationController
     if correct
       Pony.mail(:to => 'rafal.dittwald@gmail.com', :cc => 'james.nvc@gmail.com', :from => 'dojobot@hackeracademy.org', :subject => "#{current_user.name} has solved problem #{level} at #{Time.now}")
       redirect_to contest, notice: 'Congratulations! Your solution was correct!'
+      current_user.solved ||= []
+      current_user.solved << "dojo#{contest.puzzle_ident}_level#{level}"
+      current_user.save
     else
       redirect_to contest, alert: 'Sorry, your solution was incorrect'
     end
@@ -264,4 +267,5 @@ class ContestsController < ApplicationController
     end
   end
 end
+
 

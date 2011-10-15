@@ -8,6 +8,7 @@ class User
 
   field :name
   field :is_admin, :type => Boolean, :default => false
+  field :solved, type: Array
 
   has_and_belongs_to_many :achievements
 
