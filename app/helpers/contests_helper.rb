@@ -104,7 +104,7 @@ module ContestsHelper
       text.each_index do |row|
         text[row].each_index do |col|
           if text[row][col].nil?
-            text[row][col] = '_' # random_letter
+            text[row][col] = random_letter
           end
         end
       end
