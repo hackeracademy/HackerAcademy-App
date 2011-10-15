@@ -1,7 +1,10 @@
 class ContestsController < ApplicationController
   protect_from_forgery
   before_filter :authenticate_user!, :except => [:show, :index]
-  authorize_resource
+  authorize_resource except: [:problem, :solution]
+  skip_authorization_check only: [:problem, :solution]
+
+  @@problems ||= {}
 
   # GET /contests
   # GET /contests.xml
@@ -18,7 +21,6 @@ class ContestsController < ApplicationController
   # GET /contests/1.xml
   def show
     @contest = Contest.find(params[:id])
-    dojo_ident = @contest.description.match(/(\d+)$/)[1].to_i
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @contest }
@@ -76,23 +78,26 @@ class ContestsController < ApplicationController
         <code class="problem">#{@prob[:puzzle]}</code>
         EOS
       else
-        redirect_to @contest, alert: "Wrong level #{level}"
+        redirect_to @contest, alert: "Invalid level"
+        return
       end
-      session[:problem] = Marshal.dump(@prob)
       session[:time] = Time.now.to_i
       render action: :problem
     else
-      redirect_to @contest, alert: "Wrong puzzle ident #{contest_ident}"
+      redirect_to @contest, alert: "Invalid contest"
     end
   end
 
   def solution
     contest = Contest.find(params[:contest])
-    prob = Marshal.load(session[:problem])
+    prob = params[:prob]
+    @@problems.delete current_user.id
     level = params[:level]
     @time_elapsed = Time.now.to_i - session[:time]
+    session.delete :time
     if @time_elapsed > 60
       redirect_to contest, alert: 'Sorry, you took too long with your answer'
+      return
     end
     if contest.puzzle_ident == 1
       if level == '0'
