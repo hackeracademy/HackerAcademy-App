@@ -1,18 +1,14 @@
-%p#notice= notice
-
-%p
-  %b Name:
-  = @achievement.name
-%p
-  %b Description:
-  = @achievement.description
+%h2= @achievement.name
+%p= @achievement.description
 
 %h3 Who Has It?
 %ul
   - @achievement.users.each do |user|
     %li= link_to user.name, user
-
+%br
 - if can? :manage, Achievement
   = link_to 'Edit', edit_achievement_path(@achievement)
+  \|
+  = link_to 'Destroy', @achievement, :confirm => 'Are you sure?', :method => :delete
   \|
 = link_to 'Back', achievements_path
