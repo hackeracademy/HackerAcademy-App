@@ -112,18 +112,17 @@ p
 
   .featured
     :font-size 1.33em
+    a
+      &:before
+        :content "/"
   p
     :margin-bottom 1em
   a
     :font-weight bold
     :text-decoration none
-    &:before
-      :content "/"
-      &:hover
-        :color $main_font_hover
-    &.email
-      &:before
-        :content ""
+    &:hover
+      :color $main_font_hover
+
   h1
     :font-size 2em
     :font-weight bold
@@ -143,7 +142,10 @@ p
     dd
       :margin-bottom 1em
 
-
+  table
+    :width 100%
+    tr
+      td
 // PAGE SPECIFIC
 
 body.schedule
@@ -178,6 +180,14 @@ h4
   :font-size 0.8em
   :font-family monospace
 
+.bar
+  :height 1.2em
+  :line-height 1.4em
+  :font-size 0.8em
+  :background $main_font
+  :color $main_bg
+  :border-radius 5px
+  :text-indent 0.2em
 
 
 /* CSS for notification thing from

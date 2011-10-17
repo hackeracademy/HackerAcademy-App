@@ -1,7 +1,7 @@
-%h1 Editing user
 .controls
   = link_to 'Show', @user
   = link_to 'Back', users_path
 
 = render 'form'
 
+= link_to "Change My Password", edit_user_registration_path(current_user)
