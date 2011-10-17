@@ -29,7 +29,7 @@ class User
   end
 
   def self.all_ids
-    self.find(:all).collect {|u| [u.name, u.id]}
+    User.all(sort: [[ :name, :asc ]]).collect {|u| [u.name, u.id]}
   end
 
 end
