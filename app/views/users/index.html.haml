@@ -3,14 +3,14 @@
 %ol#users
   - @users.each do |user|
     %li
-      .controls
-        - if can? :update, user
-          = link_to 'Edit', edit_user_path(user)
-        - if can? :destroy, user
-          = link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete
       .user-info
         %p
           = link_to user.name, user
           = "Lvl. #{user.level} [#{user.total_score}pts]"
           - if user.is_admin
             [admin]
+      .controls
+        - if can? :update, user
+          = link_to 'Edit', edit_user_path(user)
+        - if can? :destroy, user
+          = link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete

@@ -12,9 +12,26 @@
     .field
       = f.label :email
       = f.text_field :email, :type => :email
+    
+
+    - languages = ['Python', 'C/C++', 'Java', 'Ruby','Matlab','Octave','Perl','VB']
+    - programs = ['EngSci', 'Compsci', 'ECE', 'Mech', 'Other']
+    - year = ['1T1+', '1T2','1T3','1T4','1T5']
+   
     .field
-      = f.label :password
-      = f.text_field :password, :type => :password
+      = f.label :preferred_language
+      = f.select :preferred_language, languages, :include_blank => ""
+    .field
+      = f.label :program
+      = f.select :program, programs, :include_blank => ""
+    .field
+      = f.label :year
+      = f.select :year, year, :include_blank => ""
+
+
+
+
+
     - if can? :manage, Achievement
       .field
         = f.label :achievements

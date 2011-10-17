@@ -1,8 +1,11 @@
-%h1 Leaderboard
-%ol
-  - User.find(:all).sort_by(&:total_score).reverse.each do |user|
-    - unless user.is_admin
-      %li
-        = link_to user.name, user
-        = " Lvl. #{user.level} [#{user.total_score}pts]"
-
+%table
+  - @users = User.where(:is_admin => false).sort_by(&:total_score).reverse
+  - max_score = @users[0].total_score
+  - bar_width = 150
+  - @users.each do |user|
+    %tr
+      %td= link_to shorten(user.name,20), user
+      %td= "Lvl. #{user.level}"
+      %td
+        .bar(style="width:#{bar_width*user.total_score/max_score}px")
+          = "#{user.total_score}" 

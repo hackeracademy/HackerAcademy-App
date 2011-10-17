@@ -3,6 +3,11 @@
   = "Lvl. #{@user.level} (#{@user.total_score}pts)"
 - if @user.is_admin
   %h3 Site Admin
+
+= @user.preferred_language
+= @user.year
+= @user.program
+
 %h3 Achievements
 %ul
   - @user.achievements.each do |achievement|
