@@ -6,13 +6,14 @@
     = link_to 'Destroy', @contest, :confirm => 'Are you sure?', :method => :delete
   = link_to 'Back', contests_path
 %p
-  Start:
-  = @contest.start.pretty_inspect
-%p
-  End:
-  = @contest.end.pretty_inspect
-%p
   = duration_between DateTime.now, @contest.end
   remaining
 %h3 Your Mission:
 %p= @contest.problem
+%h2 Solve It!
+= form_tag '/contests/problem', method: 'POST' do
+  = hidden_field_tag :contest_id, @contest.id
+  .field
+    = label_tag :level
+    = select_tag :level, options_for_select([['0', 0], ['1', 1], ['2', 2]])
+  = submit_tag 'Get Problem'

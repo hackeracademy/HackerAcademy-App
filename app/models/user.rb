@@ -7,7 +7,9 @@ class User
     :rememberable, :trackable, :validatable, :lockable
 
   field :name
+  field :rfid
   field :is_admin, :type => Boolean, :default => false
+  field :solved, type: Array
 
   has_and_belongs_to_many :achievements
 

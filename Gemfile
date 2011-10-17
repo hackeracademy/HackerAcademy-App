@@ -14,6 +14,7 @@ gem 'jquery-rails', '1.0.9'
 gem 'devise', '1.3.4'
 gem 'cancan', '~> 1.6'
 gem 'redcarpet'
+gem 'pony'
 
 group :development, :test do
   gem 'barista', '~> 1.2'
