@@ -29,9 +29,9 @@ class User
 
   def dojo_points
     self.dojos.map do |dojo|
-      [(dojo.p0_scores[self.id] || 0),
-       (dojo.p1_scores[self.id] || 0),
-       (dojo.p2_scores[self.id] || 0)].sum
+      [(dojo.p0_scores[self.id.to_s] || 0),
+       (dojo.p1_scores[self.id.to_s] || 0),
+       (dojo.p2_scores[self.id.to_s] || 0)].sum
     end.sum
   end
 
