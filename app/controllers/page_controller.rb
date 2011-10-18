@@ -13,6 +13,9 @@ class PageController < ApplicationController
     old_curr = Achievement.where(current: true).first
     if !old_curr.nil?
       old_curr.current = false
+      if !old_curr.save
+        redirect_to '/set_current', alert: 'Unable to unset old current'
+      end
     end
     new_curr = Achievement.find(params[:achievement])
     new_curr.current = true
