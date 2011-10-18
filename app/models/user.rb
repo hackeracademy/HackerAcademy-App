@@ -10,7 +10,7 @@ class User
   field :name
 
   field :rfid
-  
+
   field :preferred_language
   field :program
   field :year
@@ -21,7 +21,8 @@ class User
   has_and_belongs_to_many :achievements
 
   def total_score
-    self.achievements.map(&:value).sum
+    (self.achievements.map(&:value).sum +
+     DojoAchievement.all.map(&:scores).inject(0) {|s| s[self.id] || 0 })
   end
 
   def level
