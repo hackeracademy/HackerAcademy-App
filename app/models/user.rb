@@ -20,9 +20,23 @@ class User
 
   has_and_belongs_to_many :achievements
 
+  def dojos
+    DojoAchievement.all.select do |da|
+      not (da.p0_scores[self.id.to_s].nil? && da.p1_scores[self.id.to_s].nil? &&
+            da.p2_scores[self.id.to_s].nil?)
+    end
+  end
+
+  def dojo_points
+    self.dojos.map do |dojo|
+      [(dojo.p0_scores[self.id] || 0),
+       (dojo.p1_scores[self.id] || 0),
+       (dojo.p2_scores[self.id] || 0)].sum
+    end.sum
+  end
+
   def total_score
-    (self.achievements.map(&:value).sum +
-     DojoAchievement.all.map(&:scores).inject(0) {|s| s[self.id] || 0 })
+    self.achievements.map(&:value).sum + self.dojo_points
   end
 
   def level

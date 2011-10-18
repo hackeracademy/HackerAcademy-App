@@ -14,6 +14,24 @@
     %li
       = link_to achievement.name, achievement
       %em= " (#{achievement.value}pts)"
+%h3 Dojo Points
+%ul
+  - @user.dojos.each do |dojo|
+    %li
+      = dojo.name
+      %ul
+        %li
+          Problem 0:
+          = dojo.p0_scores[@user.id.to_s]
+          pts
+        %li
+          Problem 1:
+          = dojo.p1_scores[@user.id.to_s]
+          pts
+        %li
+          Problem 2:
+          = dojo.p2_scores[@user.id.to_s]
+          pts
 
 %hr
 .controls

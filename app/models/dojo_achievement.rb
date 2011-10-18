@@ -2,5 +2,7 @@ class DojoAchievement
   include Mongoid::Document
 
   field :name
-  field :scores, type: Hash
+  field :p0_scores, type: Hash
+  field :p1_scores, type: Hash
+  field :p2_scores, type: Hash
 end
