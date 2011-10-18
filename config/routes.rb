@@ -18,6 +18,8 @@ HackerAcademy::Application.routes.draw do
   root :to => 'page#show', :name => 'home'
 
   post '/redeem' => 'page#redeem'
+  post '/rfid' => 'page#rfid'
+  post '/set_current' => 'page#set_current'
   match ':name' => 'page#show'
 
   # The priority is based upon order of creation:
