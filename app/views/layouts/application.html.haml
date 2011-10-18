@@ -55,6 +55,9 @@
           - else
             %li
               = link_to 'Account', edit_user_path(current_user)
+            - if current_user.is_admin?
+              %li
+                = link_to 'Set Code', '/set_current'
             %li
               = link_to 'Redeem Code', '/redeem'
             %li
@@ -75,3 +78,4 @@
       })();
     = javascript_include_tag 'Hyphenator.js'
     = javascript_include_tag :defaults
+
