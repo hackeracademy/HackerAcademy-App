@@ -23,15 +23,15 @@
         %li
           Problem 0:
           - p0 = dojo.p0_scores[@user.id.to_s]
-          = p0 != 0 ? "#{p0}pts" : "Not solved"
+          = !p0.nil? ? "#{p0}pts" : "Not solved"
         %li
           Problem 1:
           - p1 = dojo.p1_scores[@user.id.to_s]
-          = p1 != 0 ? "#{p1}pts" : "Not solved"
+          = !p1.nil? ? "#{p1}pts" : "Not solved"
         %li
           Problem 2:
           - p2 = dojo.p2_scores[@user.id.to_s]
-          = p2 != 0 ? "#{p2}pts" : "Not solved"
+          = !p2.nil? ? "#{p2}pts" : "Not solved"
 
 %hr
 .controls
