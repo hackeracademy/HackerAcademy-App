@@ -1,5 +1,21 @@
 %h2 Redeem Your Code
 
+%p
+  (Current Achievement: "
+  = Achievement.current.name || "None"
+  ")
+
+%br
+
 = form_tag '/redeem' do
   = label_tag :code
   = text_field_tag :code
+  = submit_tag "Submit"
+
+%br
+
+%h2 Or scan your badge
+
+= form_tag '/rfid' do
+  = label_tag :rfid
+  = text_field_tag :rfid

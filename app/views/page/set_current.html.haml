@@ -1,0 +1,10 @@
+%h2 Set Current Achievement & Code
+
+= form_tag do
+  .field
+    = label_tag :achievement
+    = select_tag("achievement", options_for_select(Achievement.all_ids, Achievement.current.id))
+  .field
+    = label_tag :code
+    = text_field_tag :code
+  = submit_tag :submit

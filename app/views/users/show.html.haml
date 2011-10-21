@@ -3,12 +3,35 @@
   = "Lvl. #{@user.level} (#{@user.total_score}pts)"
 - if @user.is_admin
   %h3 Site Admin
+
+= @user.preferred_language
+= @user.year
+= @user.program
+
 %h3 Achievements
 %ul
   - @user.achievements.each do |achievement|
     %li
       = link_to achievement.name, achievement
       %em= " (#{achievement.value}pts)"
+%h3 Dojo Points
+%ul
+  - @user.dojos.each do |dojo|
+    %li
+      = dojo.name
+      %ul
+        %li
+          Problem 0:
+          - p0 = dojo.p0_scores[@user.id.to_s]
+          = !p0.nil? ? "#{p0}pts" : "Not solved"
+        %li
+          Problem 1:
+          - p1 = dojo.p1_scores[@user.id.to_s]
+          = !p1.nil? ? "#{p1}pts" : "Not solved"
+        %li
+          Problem 2:
+          - p2 = dojo.p2_scores[@user.id.to_s]
+          = !p2.nil? ? "#{p2}pts" : "Not solved"
 
 %hr
 .controls

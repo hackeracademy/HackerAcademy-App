@@ -2,6 +2,8 @@ HackerAcademy::Application.routes.draw do
   resources :achievements
 
   resources :contests
+  post '/contests/problem' => 'contests#problem'
+  post '/contests/solution' => 'contests#solution'
 
   resources :posts
 
@@ -11,9 +13,13 @@ HackerAcademy::Application.routes.draw do
 
   #match 'page/:name' => 'page#show'
 
+  match '/dojo' => 'contests#index'
+
   root :to => 'page#show', :name => 'home'
 
   post '/redeem' => 'page#redeem'
+  post '/rfid' => 'page#rfid'
+  post '/set_current' => 'page#set_current'
   match ':name' => 'page#show'
 
   # The priority is based upon order of creation:
@@ -73,4 +79,3 @@ HackerAcademy::Application.routes.draw do
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id(.:format)))'
 end
-

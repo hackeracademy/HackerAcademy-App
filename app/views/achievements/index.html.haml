@@ -1,18 +1,22 @@
-%h1 Available Achievements
-
-%ol#achievements
-  - @achievements.each do |achievement|
-    %li
-      .controls
-        - if can? :update, achievement
-          = link_to 'Edit', edit_achievement_path(achievement)
-        - if can? :destroy, achievement
-          = link_to 'Destroy', achievement, :confirm => 'Are you sure?', :method => :delete
-      .achievement-info
-        %h2
-          = link_to achievement.name, achievement
-          != "&mdash; (#{achievement.value}pts)"
-        %p= achievement.description
-
 - if can? :create, Achievement
   = link_to 'New achievement', new_achievement_path
+
+%table
+  -# @users = User.where(:is_admin => false).sort_by(&:total_score).reverse
+
+  - max_score = @achievements.map {|x| x.users.length}.max
+  - min_width = 15
+  - bar_width = 150
+  - bias_amount = max_score / 2
+
+  - @achievements.each do |achievement|
+    %tr
+      %td= link_to achievement.name, achievement
+      %td= "#{achievement.value}pts"
+      %td
+        -x=achievement.users.length
+        -width= (bar_width-min_width)*x/max_score+min_width
+        -bias= bias_amount*(-1*(x-(max_score/2))**2+(max_score/2)**2)/(max_score/2)**2
+        .bar(style="width:#{width+bias}px")
+          = "#{achievement.users.length}" 
+
