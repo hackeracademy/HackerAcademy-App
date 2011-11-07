@@ -7,8 +7,6 @@ class ContestsController < ApplicationController
   authorize_resource except: [:problem, :solution]
   skip_authorization_check only: [:problem, :solution]
 
-  @@problems ||= {}
-
   # GET /contests
   # GET /contests.xml
   def index
