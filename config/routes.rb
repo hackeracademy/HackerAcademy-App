@@ -1,9 +1,9 @@
 HackerAcademy::Application.routes.draw do
   resources :achievements
 
+  match '/contests/problem' => 'contests#problem'
+  match '/contests/solution' => 'contests#solution'
   resources :contests
-  post '/contests/problem' => 'contests#problem'
-  post '/contests/solution' => 'contests#solution'
 
   resources :posts
 

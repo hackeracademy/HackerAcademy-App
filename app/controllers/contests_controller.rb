@@ -31,109 +31,48 @@ class ContestsController < ApplicationController
   def problem
     @contest = Contest.find(params[:contest_id])
     contest_ident = @contest.puzzle_ident
-    @level = params[:level]
+    @level = params[:level].to_i
 
+    # To add more dojos, add another elsif contest_ident == statement. In the
+    # block, set problem to be the name of the view for the problem (which
+    # should probably contain a "render partial: 'submit'" at least) and set
+    # whatever instance variables the problem will need (by default, @prob).
+    #
+    # We could make this work for all dojos, by just doing something like
+    # @prob = ContestsHelper.const_get(:"Dojo#{level}").generate_puzzle(...)
+    # but we probably want to be able to configure each puzzle/level seperately
     if contest_ident == 1
-      puzzle1_length = 350
-      puzzle1_words = 20
-
-      puzzle2_length = 100
-      puzzle2_words = 5
-
-      puzzle3_length = 100
-      puzzle3_words = 5
-      if @level == '0'
-        @prob = ContestsHelper::Level1.generate_level0(
-          puzzle1_length, puzzle1_words
-        )
-        @puzzle = <<-EOS
-        <p>Find the needles in the haystack!</p>
-
-        <p>
-          Given a list of words (needles) and a string of text (haystack), return the location of each needle (or its reverse) in the haystack.
-          Return the index for the first character of each word, with the words in alphabetical order. Return -1 if a word is not found.
-          A needle will only appear once.
-        </p>
-        <h2>Sample Problem</h2>
-        <h4>Needles</h4>
-        <div class="data"><code>beta<br>alpha<br>gamma</code></div>
-        <h4>Haystack</h4>
-        <div class="data"><code>xxxalphaxxxatebxxx</code></div>
-        <h4>Solution</h4>
-        <div class="data"><code>3, 14, -1</code></div>
-
-        <h2>Actual Problem</h2>
-        <h4>Needles</h4>
-        <div class="data"><code>#{@prob[:words].map{|w| "#{w}"}.join('<br>')}</code></div>
-        <h4>Haystack</h4>
-        <div class="data"><code>#{@prob[:puzzle]}</code></div>
-        EOS
-      elsif @level == '1'
-        @prob = ContestsHelper::Level1.generate_level1(
-          puzzle2_length, puzzle2_words
-        )
-        @puzzle = <<-EOS
-        <p>Just like before, but now, in 2 dimensions!</p>
-        <p>
-          Given a list of words (needles) and a blob of text (haystack), return the location of each needle in the haystack.
-          Words can appear horizontally (forwards and backwards), vertically (up and down), and diagonally (NE, SE, SW, NW).
-          Return the index for the first character of each word, with the words in alphabetical order.
-          Return -1 if a word is not found. A needle will only appear once.
-        </p>
-        <h2>Sample Problem</h2>
-        <h4>Needles</h4>
-        <div class="data"><code>beta<br>alpha<br>gamma</code></div>
-        <h4>Haystack</h4>
-        <div class="data"><code>alpha<br>toooo<br>eoooo<br>boooo<br>ooooo</code></div>
-        <h4>Solution</h4>
-        <div class="data"><code>0,0; 3,0; -1;</code></div>
-
-        <h2>Actual Problem</h2>
-        <h4>Needles</h4>
-        <div class="data"><code>#{@prob[:words].map{|w| "#{w}"}.join('<br>')}</code></div>
-        <h4>Haystack</h4>
-        <div class="data"><code>#{@prob[:puzzle].split("\n").join("<br>")}</code></div>
-        EOS
-      elsif @level == '2'
-        @prob = ContestsHelper::Level1.generate_level2(
-          puzzle3_length, puzzle3_words
-        )
-        @puzzle = <<-EOS
-        <p>Like the last problem, but now, needles may have one character wrong!</p>
-        <p>
-          Given a list of words (needles) and a blob of text (haystack), return the location of each needle in the haystack.
-          Words can appear horizontally (forwards and backwards), vertically (up and down), and diagonally (NE, SE, SW, NW).
-          Return the index for the first character of each word, with the words in alphabetical order.
-          Return -1 if a word is not found. A needle will only appear once.
-          <br/><br/>
-          Words can have up to one character wrong, ex. 'alpha' (needle) may be 'alph<em>o</em>' in the haystack.
-        </p>
-        <h2>Sample Problem</h2>
-        <h4>Needles</h4>
-        <div class="data"><code>beta<br>alpha<br>gamma</code></div>
-        <h4>Haystack</h4>
-        <div class="data"><code>alpho<br>toooo<br>eoooo<br>roooo<br>ooooo</code></div>
-        <h4>Solution</h4>
-        <div class="data"><code>0,0; 3,0; -1;</code></div>
-
-        <h2>Actual Problem</h2>
-        <h4>Needles</h4>
-        <div class="data"><code>#{@prob[:words].map{|w| "#{w}"}.join('<br>')}</code></div>
-        <h4>Haystack</h4>
-        <div class="data"><code>#{@prob[:puzzle].split("\n").join("<br>")}</code></div>
-        EOS
-      else
+      unless (0..2).member? @level
         redirect_to @contest, alert: "Invalid level"
         return
       end
-      session[:time] = Time.now.to_i
-      msg = @prob[:puzzle] + @prob[:words].join('')
-      key = ENV['HMAC_KEY'] || "derp"
-      session[:key] = OpenSSL::HMAC.hexdigest('sha256', msg, key)
-      render action: :problem
+
+      puzzle_length = {
+        0 => 350,
+        1 => 100,
+        2 => 100
+      }
+      puzzle_words = {
+        0 => 20,
+        1 => 5,
+        2 => 5
+      }
+
+      problem = "dojo1_level#{@level}"
+      @prob = ContestsHelper::Dojo1.generate_puzzle(
+        @level, puzzle_length[@level], puzzle_words[@level])
     else
       redirect_to @contest, alert: "Invalid contest"
     end
+
+    # For making sure the solution is within the time limit
+    session[:time] = Time.now.to_i
+    # Used to avoid people trying to cheat by changing the puzzle in the form
+    msg = @prob[:puzzle] + @prob[:words].join('')
+    key = ENV['HMAC_KEY'] || "derp"
+    session[:key] = OpenSSL::HMAC.hexdigest('sha256', msg, key)
+
+    render problem
   end
 
   def solution
@@ -157,17 +96,20 @@ class ContestsController < ApplicationController
         alert: "Sorry, you took too long with your answer (#{time_elapsed} seconds)"
       return
     end
+    # This is rather more difficult to split up, since we need to do different
+    # preprocessing to the input before we can check it
     if contest.puzzle_ident == 1
+      soln = nil
       if level == '0'
         soln = params[:solution].split(/\s*,\s*/).map(&:to_i)
         if soln.length != prob[:words].length
           correct = false
         else
-          correct = ContestsHelper::Level1.verify_level0(
+          correct = ContestsHelper::Dojo1.verify_level0(
             Hash[*prob[:words].sort.zip(soln).flatten], prob[:puzzle]
           )
         end
-      elsif level == '1'
+      elsif level == '1' || level == '2'
         soln = params[:solution].split(/\s*;\s*/).map do |pair|
           pair.split(/\s*,\s*/).map(&:to_i)
         end
@@ -175,27 +117,17 @@ class ContestsController < ApplicationController
           correct = false
         else
           soln = prob[:words].sort.zip(soln)
-          Rails.logger.debug(prob)
-          correct = ContestsHelper::Level1.verify_level1(
-            soln.inject({}) {|h,e| h[e.first] = e.second; h}, prob[:puzzle]
-          )
-        end
-      elsif level == '2'
-        soln = params[:solution].split(/\s*;\s*/).map do |pair|
-          pair.split(/\s*,\s*/).map(&:to_i)
-        end
-        if soln.length != prob[:words].length
-          correct = false
-        else
-          soln = prob[:words].sort.zip(soln)
-          correct = ContestsHelper::Level1.verify_level2(
+          correct = ContestsHelper::Dojo1.verify_puzzle(level,
             soln.inject({}) {|h,e| h[e.first] = e.second; h}, prob[:puzzle]
           )
         end
       end
     end
     if correct
-      Pony.mail(:to => 'rafal.dittwald@gmail.com', :cc => 'james.nvc@gmail.com', :from => 'dojobot@hackeracademy.org', :subject => "#{current_user.name} has solved problem #{level} at #{Time.now}")
+      Pony.mail(
+        :to => 'rafal.dittwald@gmail.com', :cc => 'james.nvc@gmail.com',
+        :from => 'dojobot@hackeracademy.org',
+        :subject => "#{current_user.name} has solved problem #{level} at #{Time.now}")
       redirect_to contest, notice: 'Congratulations! Your solution was correct!'
       current_user.solved ||= []
       current_user.solved << ["dojo#{contest.puzzle_ident}_level#{level}", Time.now]

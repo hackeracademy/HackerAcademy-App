@@ -1,0 +1,55 @@
+= render partial: 'problem_header'
+%p Like the last problem, but now, needles may have one character wrong!
+%p
+  Given a list of words (needles) and a blob of text (haystack), return the
+  location of each needle in the haystack.
+  %br
+  Words can appear horizontally (forwards and backwards), vertically (up and
+  down), and diagonally (NE, SE, SW, NW).
+  %br
+  Return the index for the first character of each word, with the words in alphabetical order.
+  %br
+  Return -1 if a word is not found. A needle will only appear once.
+  %br
+  Words can have up to one character wrong, ex. 'alpha' (needle) may be 'alph<em>o</em>' in the haystack.
+%h2 Sample Problem
+%h4 Needles
+.data
+  %code
+    beta
+    %br
+    alpha
+    %br
+    gamma
+%h4 Haystack
+.data
+  %code
+    alpho
+    %br
+    toooo
+    %br
+    eoooo
+    %br
+    roooo
+    %br
+    ooooo
+%h4 Solution
+.data
+  %code
+    0,0; 3,0; -1;
+
+%h2 Actual Problem
+%h4 Needles
+.data
+  %code
+    - @prob[:words].each do |word|
+      = word
+      %br
+%h4 Haystack
+.data
+  %code
+    - @prob[:puzzle].split("\n").each do |line|
+      = line
+      %br
+
+= render partial: 'submit'

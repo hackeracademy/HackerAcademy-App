@@ -12,7 +12,7 @@ module ContestsHelper
     ].join(', ')
   end
 
-  module Level1
+  module Dojo1
 
     def self.random_letter
       letters = "abcdefghijklmnopqrstuvwxyz"
@@ -244,6 +244,14 @@ module ContestsHelper
         return false
       end
       return true
+    end
+
+    def self.generate_puzzle(level, *args)
+      return self.send("generate_level#{level}", *args)
+    end
+
+    def self.verify_puzzle(level, *args)
+      return self.send("verify_level#{level}", *args)
     end
   end
 end
