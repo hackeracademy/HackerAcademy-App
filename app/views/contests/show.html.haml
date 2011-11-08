@@ -13,6 +13,11 @@
 %h2 Solve It!
 %ol
   - (0..2).each do |lvl|
-    %li= link_to("Level #{lvl}", controller: 'contests', action: 'problem',
-      level: lvl, contest_id: @contest.id)
+    %li
+      = "Problem #{lvl}:"
+      - if current_user.puzzle_available? @contest.puzzle_ident, lvl
+        - text = current_user.has_solved?(@contest.puzzle_ident, lvl) ? 'Complete' : 'Incomplete'
+        = link_to(text, controller: 'contests', action: 'problem', level: lvl, contest_id: @contest.id)
+      - else
+        Locked
 

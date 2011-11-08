@@ -32,6 +32,10 @@ class ContestsController < ApplicationController
     @contest = Contest.find(params[:contest_id])
     contest_ident = @contest.puzzle_ident
     @level = params[:level].to_i
+    if !current_user.puzzle_available? contest_ident, @level
+      redirect_to @contest, alert: "That puzzle isn't available to you yet"
+      return
+    end
 
     # To add more dojos, add another elsif contest_ident == statement. In the
     # block, simply add another elsif block for the appropriate contest_ident
