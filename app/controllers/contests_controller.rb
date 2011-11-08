@@ -34,36 +34,26 @@ class ContestsController < ApplicationController
     @level = params[:level].to_i
 
     # To add more dojos, add another elsif contest_ident == statement. In the
-    # block, set problem to be the name of the view for the problem (which
-    # should probably contain a "render partial: 'submit'" at least) and set
-    # whatever instance variables the problem will need (by default, @prob).
-    #
-    # We could make this work for all dojos, by just doing something like
-    # @prob = ContestsHelper.const_get(:"Dojo#{level}").generate_puzzle(...)
-    # but we probably want to be able to configure each puzzle/level seperately
+    # block, simply add another elsif block for the appropriate contest_ident
+    # which sets the "args" variable to be the array of arguments which will be
+    # passed to the puzzle generator function (see contests_helper.rb for more
+    # detail.
+    args = []
     if contest_ident == 1
       unless (0..2).member? @level
         redirect_to @contest, alert: "Invalid level"
         return
       end
-
-      puzzle_length = {
-        0 => 350,
-        1 => 100,
-        2 => 100
-      }
-      puzzle_words = {
-        0 => 20,
-        1 => 5,
-        2 => 5
-      }
-
-      problem = "dojo1_level#{@level}"
-      @prob = ContestsHelper::Dojo1.generate_puzzle(
-        @level, puzzle_length[@level], puzzle_words[@level])
+      puzzle_length = [350, 100, 100]
+      puzzle_words = [20, 5, 5]
+      args = [puzzle_length[@level], puzzle_words[@level]]
     else
       redirect_to @contest, alert: "Invalid contest"
     end
+
+    problem = "dojo#{contest_ident}_level#{@level}"
+    @prob = ContestsHelper.generate_puzzle(contest_ident,
+      @level, args)
 
     # For making sure the solution is within the time limit
     session[:time] = Time.now.to_i

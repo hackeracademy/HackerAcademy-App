@@ -1,3 +1,10 @@
+# To add generation and verification for a new Dojo, you should create a new
+# submodule named "Dojo[N]" (e.g. Dojo1) which will contain all the code to
+# generate/verify the puzzles. The module should also contain two methods with
+# the following names and signatures: self.generate_puzzle(level, *args) which
+# will return the new puzzle for the given level in an appopriate format, and
+# self.verify_puzzle(level, *args), which will verify a puzle of the given
+# level, returning true or false.
 module ContestsHelper
   def duration_between(from_date, to_date)
     hours, minutes, seconds, fracs = Date.send(
@@ -10,6 +17,14 @@ module ContestsHelper
       pluralize(minutes, "minute"),
       pluralize(seconds, "second"),
     ].join(', ')
+  end
+
+  def self.generate_puzzle(dojo, level, args)
+    return self.const_get(:"Dojo#{dojo}").generate_puzzle(level, *args)
+  end
+
+  def self.verify_puzzle(dojo, level, args)
+    return self.const_get(:"Dojo#{dojo}").verify_puzzle(level, *args)
   end
 
   module Dojo1
@@ -254,4 +269,5 @@ module ContestsHelper
       return self.send("verify_level#{level}", *args)
     end
   end
+
 end
