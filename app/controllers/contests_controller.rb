@@ -22,6 +22,13 @@ class ContestsController < ApplicationController
   # GET /contests/1.xml
   def show
     @contest = Contest.find(params[:id])
+    if @contest.start > DateTime.now
+      unless current_user.is_admin
+        redirect_to contests_path, alert: "That contest has not yet started"
+        return
+      end
+    end
+
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @contest }
