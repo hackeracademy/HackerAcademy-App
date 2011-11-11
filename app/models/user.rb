@@ -47,5 +47,14 @@ class User
     User.all(sort: [[ :name, :asc ]]).collect {|u| [u.name, u.id]}
   end
 
+  def has_solved? dojo, level
+    self.solved.map(&:first).member? "dojo#{dojo}_level#{level}"
+  end
+
+  def puzzle_available? dojo, level
+    return level == 0 || self.has_solved?(dojo, level) ||
+      self.has_solved?(dojo, level-1)
+  end
+
 end
 
