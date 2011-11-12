@@ -9,7 +9,7 @@
     - if @level == 0
       = hidden_field_tag :query, @prob[:query]
       = hidden_field_tag :posts, @prob[:posts].map{|x| x[0]}.join('+')
-    - elsif @level == 1
+    - elsif @level > 0
       = hidden_field_tag :searches, @prob[:searches].map{|x| x[0]}.join('+')
       = hidden_field_tag :locations, @prob[:locations].join('+')
   .field

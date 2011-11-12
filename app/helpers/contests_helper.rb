@@ -108,18 +108,13 @@ module ContestsHelper
       arr = remove_letter(arr) if rand < (0.1 + 0.3 * arr.length / 18)
       arr = replace_letter(arr) if rand < (0.1 + 0.3 * arr.length / 18)
       arr = add_letter(arr) if rand < (0.1 + 0.3 * arr.length / 18)
-      arr = swap_letter(arr) if rand < (0.1 + 0.3 * arr.length / 18)
-      arr = remove_letter(arr) if rand < (0.1 + 0.3 * arr.length / 18)
-      arr = replace_letter(arr) if rand < (0.1 + 0.3 * arr.length / 18)
-      arr = add_letter(arr) if rand < (0.1 + 0.3 * arr.length / 18)
-
 
       return arr.join()
     end
 
     def self.generate_level1
-      locations = LOCATIONS.sort_by{rand}[0..5]
-      searches = locations.sort_by{rand}[0..1]
+      locations = LOCATIONS.sort_by{rand}[0..100]
+      searches = locations #locations.sort_by{rand}[0..100]
 
       hash_searches = []
 
@@ -154,14 +149,50 @@ module ContestsHelper
 
     end
 
+    COMMON_WORDS = ["Bank", "Bakery", "Arts", "Court", "HQ", "North", "On", "Beach", "Community", "Garden", "Hot", "Gallery", "Dental", "on", "Golf", "Downtown", "Coffee", "Theatre", "/", "Yonge", "Gym", "Library", "Family", "In", "Car", "International", "Square", "Ave", "Express", "Shop", "Village", "Green", "Bloor", "at", "Big", "High", "Dog", "Services", "Public", "Clinic", "Studio", "Bistro", "Inc.", "Fitness", "Dr", "Health", "de", "Salon", "St.", "Casa", "A", "Church", "King", "Center", "for", "Avenue", "Spa", "East", "Store", "Home", "University", "Inn", "@", "Room", "Market", "Food", "Hotel", "Hair", "Place", "Pizza", "Dr.", "Bay", "the", "Hamilton", "Of", "West", "Grill", "City", "Station", "Building", "College", "Toronto", "Pub", "Lounge", "Hall", "And", "Office", "Canadian", "St", "Stop", "School", "Canada", "Club", "Street", "Cafe", "House", "of", "Bus", "Restaurant", "Bar", "and", "The", "Park", "Centre", "-", "&"] ;
+
+    def self.remove_common_words(input) #array of words
+      return input - COMMON_WORDS
+    end
+
+    def self.swap_words(input) #array of words
+      return swap_letter(input)
+    end
+
+    def self.obfuscate_level2(string)
+      words = string.split(" ")
+      words = remove_common_words(words)
+      words = swap_words(words) if rand < 0.1
+
+      arr = words.join(" ").split(//)
+
+      arr = jumble_case(arr) if rand < (0.1 + 0.3 * arr.length / 18)
+      arr = swap_letter(arr) if rand < (0.1 + 0.3 * arr.length / 18)
+      arr = remove_letter(arr) if rand < (0.1 + 0.3 * arr.length / 18)
+      arr = replace_letter(arr) if rand < (0.1 + 0.3 * arr.length / 18)
+      arr = add_letter(arr) if rand < (0.1 + 0.3 * arr.length / 18)
+
+      return arr.join()
+    end
+
     def self.generate_level2
-      
+      locations = LOCATIONS.sort_by{rand}[0..100]
+      searches = locations #.sort_by{rand}[0..100]
+
+      hash_searches = []
+
+      searches.each do |search|
+        hash = Digest::MD5.hexdigest(search + SALT)
+        search = obfuscate_level2(search)
+        hash_searches << [hash, search]
+      end
+
+      return {searches: hash_searches, locations: locations}
     end
 
-    def self.verify_level2
-      
+    def self.verify_level2(searches,locations,solution)
+      return verify_level1(searches,locations,solution)
     end
-
 
 
     def self.generate_puzzle(level, *args)

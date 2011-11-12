@@ -6,11 +6,13 @@
   is sign in, but in order to do so they need to find the right location in our application.
   Geolocation helps, but sometimes, we have to rely on user input.
   %br
+  %br
   Given a list of locations and a query, find the correct location name.
   Unfortunately, places go by different names, and, 
   our users often make typos on their mobile phones.
   %br
-  You are given: 1. a list of 1000 place names, and 2. a list of 100 search queries and their ids.
+  %br
+  You are given: 1. a list of 100 place names, and 2. a list of 100 search queries and their ids.
   Match each search query to its expected place name, and return the id of the search string and the identified place.
   Your algorithm only has to get 90% of the matches right to pass.
   Note, that the queries may have issues, such as:
@@ -48,13 +50,13 @@
     Embassy Night Club
 
 %h2 Actual Problem
-%h4 Posts
+%h4 Locations
 .data
   %code
     - @prob[:locations].each do |word|
       = word
       %br
-%h4 Query
+%h4 Queries
 .data
   %code
     - @prob[:searches].each do |hash_search|

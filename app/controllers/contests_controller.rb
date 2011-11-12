@@ -80,7 +80,7 @@ class ContestsController < ApplicationController
     elsif contest_ident == 2
       if @level == 0
         msg = @prob[:query] + @prob[:posts].map{|x| x[0]}.join('+')
-      elsif @level == 1
+      elsif @level > 0
         msg = @prob[:searches].map{|x| x[0]}.join('+') + @prob[:locations].join('+')
       end
     end
@@ -101,7 +101,7 @@ class ContestsController < ApplicationController
 
       if level == "0"
         msg = params[:query] + params[:posts]
-      elsif level == "1"
+      elsif level == "1" or level == "2"
         msg = params[:searches] + params[:locations]
       end
       key = ENV['HMAC_KEY'] || "derp"
@@ -114,7 +114,7 @@ class ContestsController < ApplicationController
 
       time_elapsed = Time.now.to_i - session[:time]
       session.delete :time
-      if time_elapsed > 60
+      if time_elapsed > 120
         redirect_to contest,
           alert: "Sorry, you took too long with your answer (#{time_elapsed} seconds)"
         return
@@ -127,7 +127,7 @@ class ContestsController < ApplicationController
       elsif level == '1'
         correct,perf = ContestsHelper::Dojo2.verify_level1(params[:searches], params[:locations], params[:solution])
       elsif level == '2'
-        correct,perf = ContestsHelper::Dojo2.verify_level2()
+        correct,perf = ContestsHelper::Dojo2.verify_level2(params[:searches], params[:locations], params[:solution])
       end
 
 
