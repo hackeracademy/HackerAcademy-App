@@ -166,11 +166,11 @@ module ContestsHelper
 
       arr = words.join(" ").split(//)
 
-      arr = jumble_case(arr) if rand < (0.1 + 0.3 * arr.length / 18)
-      arr = swap_letter(arr) if rand < (0.1 + 0.3 * arr.length / 18)
-      arr = remove_letter(arr) if rand < (0.1 + 0.3 * arr.length / 18)
-      arr = replace_letter(arr) if rand < (0.1 + 0.3 * arr.length / 18)
-      arr = add_letter(arr) if rand < (0.1 + 0.3 * arr.length / 18)
+      arr = jumble_case(arr) if rand < (0.2 + 0.3 * arr.length / 18)
+      arr = swap_letter(arr) if rand < (0.2 + 0.3 * arr.length / 18)
+      arr = remove_letter(arr) if rand < (0.2 + 0.3 * arr.length / 18)
+      arr = replace_letter(arr) if rand < (0.2 + 0.3 * arr.length / 18)
+      arr = add_letter(arr) if rand < (0.2 + 0.3 * arr.length / 18)
 
       return arr.join()
     end
