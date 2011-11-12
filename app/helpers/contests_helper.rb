@@ -191,7 +191,23 @@ module ContestsHelper
     end
 
     def self.verify_level2(searches,locations,solution)
-      return verify_level1(searches,locations,solution)
+      s = solution.split("\n").map{|x| x.strip}
+      pairs = s.each_slice(2).to_a
+
+      if searches.split('+').length != pairs.length
+        return [false,-1]
+      end
+
+      total = pairs.length
+      sum = 0
+
+      pairs.each do |hash,term|
+        sum += 1 if Digest::MD5.hexdigest(term + SALT) == hash
+      end
+
+      score = 1.0 * sum / total
+
+      return [score > 0.9,score]
     end
 
 

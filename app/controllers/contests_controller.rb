@@ -188,6 +188,12 @@ class ContestsController < ApplicationController
           :to => 'rafal.dittwald@gmail.com', :cc => 'james.nvc@gmail.com',
           :from => 'dojobot@hackeracademy.org',
           :subject => "#{current_user.name} has solved problem #{level} at #{Time.now}")
+        if perf != -1
+           Pony.mail(
+          :to => 'rafal.dittwald@gmail.com', :cc => 'james.nvc@gmail.com',
+          :from => 'dojobot@hackeracademy.org',
+          :subject => "#{perf.round(2)} #{current_user.name} P#{level} at #{Time.now}")
+        end
       end
       redirect_to contest, notice: 'Congratulations! Your solution was correct!'
       current_user.solved ||= []
