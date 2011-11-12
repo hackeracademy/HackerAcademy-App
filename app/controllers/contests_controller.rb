@@ -114,7 +114,7 @@ class ContestsController < ApplicationController
 
       time_elapsed = Time.now.to_i - session[:time]
       session.delete :time
-      if time_elapsed > 120
+      if time_elapsed > 180
         redirect_to contest,
           alert: "Sorry, you took too long with your answer (#{time_elapsed} seconds)"
         return
