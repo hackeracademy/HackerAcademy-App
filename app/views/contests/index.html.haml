@@ -23,24 +23,29 @@
 
 - if @contests.length != 0
   %h1 Active Contests
-  %ol#contests
-    - @contests.each do |contest|
-      %li
-        .controls
-          - if can? :edit, contest
-            = link_to 'Edit', edit_contest_path(contest)
-          - if can? :destroy, contest
-            = link_to 'Destroy', contest, :confirm => 'Are you sure?', :method => :delete
-        .contest-info
-          %p= link_to contest.description, contest
-          - if DateTime.now < contest.start
-            %p
-              = duration_between DateTime.now, contest.start
-              until contest start
-          - elsif DateTime.now < contest.end
-            %p
-              = duration_between DateTime.now, contest.end
-              remaining
+
+  -if current_user
+
+    %ol#contests
+      - @contests.each do |contest|
+        %li
+          .controls
+            - if can? :edit, contest
+              = link_to 'Edit', edit_contest_path(contest)
+            - if can? :destroy, contest
+              = link_to 'Destroy', contest, :confirm => 'Are you sure?', :method => :delete
+          .contest-info
+            %p= link_to contest.description, contest
+            - if DateTime.now < contest.start
+              %p
+                = duration_between DateTime.now, contest.start
+                until contest start
+            - elsif DateTime.now < contest.end
+              %p
+                = duration_between DateTime.now, contest.end
+                remaining
+  - else
+    Log in to see the contests.
 
 %br
 
