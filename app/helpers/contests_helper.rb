@@ -114,7 +114,7 @@ module ContestsHelper
 
     def self.generate_level1
       locations = LOCATIONS.sort_by{rand}[0..100]
-      searches = locations #locations.sort_by{rand}[0..100]
+      searches = locations.sort_by{rand} #locations.sort_by{rand}[0..100]
 
       hash_searches = []
 
@@ -177,7 +177,7 @@ module ContestsHelper
 
     def self.generate_level2
       locations = LOCATIONS.sort_by{rand}[0..100]
-      searches = locations #.sort_by{rand}[0..100]
+      searches = locations.sort_by{rand} #.sort_by{rand}[0..100]
 
       hash_searches = []
 
