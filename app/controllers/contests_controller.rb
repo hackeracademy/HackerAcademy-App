@@ -201,9 +201,9 @@ class ContestsController < ApplicationController
         Pony.mail(
           :to => 'rafal.dittwald@gmail.com', :cc => 'james.nvc@gmail.com',
           :from => 'dojobot@hackeracademy.org',
-          :subject => "#{score.round(2)} #{current_user.name} P#{level} at #{Time.now}")
+          :subject => "#{perf.round(2)} #{current_user.name} P#{level} at #{Time.now}")
         end
-        redirect_to contest, alert: "Sorry, your solution was not good enough. P=#{perf}"
+        redirect_to contest, alert: "Sorry, your solution was not good enough. P=#{perf.round(2)}"
       else
         redirect_to contest, alert: 'Sorry, your solution was incorrect'
       end
