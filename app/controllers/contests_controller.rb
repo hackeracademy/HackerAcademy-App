@@ -78,7 +78,11 @@ class ContestsController < ApplicationController
     if contest_ident == 1
       msg = @prob[:puzzle] + @prob[:words].join('')
     elsif contest_ident == 2
-      msg = @prob[:query] + @prob[:posts].map{|x| x[0]}.join('+')
+      if @level == 0
+        msg = @prob[:query] + @prob[:posts].map{|x| x[0]}.join('+')
+      elsif @level == 1
+        msg = @prob[:searches].map{|x| x[0]}.join('+') + @prob[:locations].join('+')
+      end
     end
     key = ENV['HMAC_KEY'] || "derp"
     session[:key] = OpenSSL::HMAC.hexdigest('sha256', msg, key)
@@ -89,11 +93,17 @@ class ContestsController < ApplicationController
   def solution
     contest = Contest.find(params[:contest])
     correct = false
+    perf = -1
 
     if contest.puzzle_ident == 2
-      posts = params[:posts]
-      query = params[:query]
-      msg = query + posts
+      msg = nil
+      level = params[:level]
+
+      if level == "0"
+        msg = params[:query] + params[:posts]
+      elsif level == "1"
+        msg = params[:searches] + params[:locations]
+      end
       key = ENV['HMAC_KEY'] || "derp"
       hmac = OpenSSL::HMAC.hexdigest('sha256', msg, key)
       if hmac != session[:key]
@@ -101,7 +111,7 @@ class ContestsController < ApplicationController
         return
       end
       session.delete :key
-      level = params[:level]
+
       time_elapsed = Time.now.to_i - session[:time]
       session.delete :time
       if time_elapsed > 60
@@ -112,13 +122,12 @@ class ContestsController < ApplicationController
 
       # CHECK SOLUTION
 
-      soln = params[:solution]
       if level == '0'
-        correct = ContestsHelper::Dojo2.verify_level0(posts, query, soln)
+        correct = ContestsHelper::Dojo2.verify_level0(params[:posts], params[:query], params[:solution])
       elsif level == '1'
-        correct = ContestsHelper::Dojo2.verify_level1()
+        correct,perf = ContestsHelper::Dojo2.verify_level1(params[:searches], params[:locations], params[:solution])
       elsif level == '2'
-        correct = ContestsHelper::Dojo2.verify_level2()
+        correct,perf = ContestsHelper::Dojo2.verify_level2()
       end
 
 
@@ -185,7 +194,19 @@ class ContestsController < ApplicationController
       current_user.solved << ["dojo#{contest.puzzle_ident}_level#{level}", Time.now]
       current_user.save
     else
-      redirect_to contest, alert: 'Sorry, your solution was incorrect'
+      
+
+      if perf != -1
+        if ENV["RAILS_ENV"] == "production"
+        Pony.mail(
+          :to => 'rafal.dittwald@gmail.com', :cc => 'james.nvc@gmail.com',
+          :from => 'dojobot@hackeracademy.org',
+          :subject => "#{score.round(2)} #{current_user.name} P#{level} at #{Time.now}")
+        end
+        redirect_to contest, alert: "Sorry, your solution was not good enough. P=#{perf}"
+      else
+        redirect_to contest, alert: 'Sorry, your solution was incorrect'
+      end
     end
   end
 

@@ -9,7 +9,7 @@
   = duration_between DateTime.now, @contest.end
   remaining
 %h3 Your Mission:
-%p= @contest.problem
+%p!= @contest.problem
 %h2 Solve It!
 %ol
   - (0..2).each do |lvl|
