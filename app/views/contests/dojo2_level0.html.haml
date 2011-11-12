@@ -1,0 +1,54 @@
+= render partial: 'problem_header'
+%p Search and Sort
+
+%p
+  ElectricCourage users post flirty messages to a common event wall, 
+  but also like to search the wall to see if someone mentioned them.
+  Given a list of wall posts and a query, implement a search 
+  that will return the relevant post ids.
+  %br
+  You are given: 1. an list containing data about posts; 2. a query string.
+  Return the number of posts that contain the query string, followed by 
+  a list of the ids of matching posts, sorted in order by date posted.  
+  Ignore case.
+
+%h2 Sample Problem
+%h4 Posts
+.data
+  %code
+    \# id (string) <br>
+    \# time (int) <br>
+    \# message (string) <br>
+    1<br>
+    1321046427<br>
+    chocolate gumdrops<br>
+    2<br>
+    1321046425<br>
+    honey popsicle<br>
+    3<br>
+    1321046422<br>
+    Chocolate ice cream
+%h4 Query
+.data
+  %code
+    chocolate
+%h4 Solution
+.data
+  %code
+    2<br>
+    3<br>
+    1
+
+%h2 Actual Problem
+%h4 Posts
+.data
+  %code
+    - @prob[:posts].each do |post|
+      - post.each do |d|
+        = d
+        %br
+%h4 Query
+.data
+  %code= @prob[:query]
+
+= render partial: 'submit'

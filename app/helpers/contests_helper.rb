@@ -27,6 +27,74 @@ module ContestsHelper
     return self.const_get(:"Dojo#{dojo}").verify_puzzle(level, *args)
   end
 
+  module Dojo2
+
+    POSTS = Marshal.load(open('lib/ecdojoposts.dump'))
+    # hash:
+    # ID => [ ID (str) , DATETIME (int), MESSAGE (string) ]
+
+    def self.generate_level0
+      query = %w(guy girl drink dance shirt red the you).sample
+      # select random subset of posts
+      posts = POSTS.values.sort_by{rand}[0..3]
+      # choose a word
+      return {query: query, posts: posts}
+    end
+
+    def self.verify_level0(posts, query, soln)
+      s = soln.split("\n").map{|x| x.strip}.join("+")
+      
+      times_ids = []
+
+    
+
+      posts.split('+').each do |post_id|
+        if POSTS[post_id][2].downcase.include? query #TODO make this a better check
+          times_ids << [POSTS[post_id][1], POSTS[post_id][0]]
+        end
+      end
+
+      if times_ids.length.to_s == "0"
+        actual_soln = "0"
+      else
+        actual_soln = [times_ids.length.to_s,times_ids.sort.map{|x| x[1]}.join("+")].join("+")
+      end
+
+      puts "ZZZZZZZ"
+      puts actual_soln
+
+      return s == actual_soln
+
+      # ContestsHelper::Dojo1.
+    end
+
+    def self.generate_level1
+      
+    end
+
+    def self.verify_level1
+      
+    end
+
+    def self.generate_level2
+      
+    end
+
+    def self.verify_level2
+      
+    end
+
+
+
+    def self.generate_puzzle(level, *args)
+      return self.send("generate_level#{level}", *args)
+    end
+
+    def self.verify_puzzle(level, *args)
+      return self.send("verify_level#{level}", *args)
+    end
+  end
+
   module Dojo1
 
     def self.random_letter

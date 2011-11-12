@@ -58,6 +58,11 @@ class ContestsController < ApplicationController
       puzzle_length = [350, 100, 100]
       puzzle_words = [20, 5, 5]
       args = [puzzle_length[@level], puzzle_words[@level]]
+    elsif contest_ident == 2
+      unless (0..2).member? @level
+        redirect_to @contest, alert: "Invalid level"
+        args = []
+      end
     else
       redirect_to @contest, alert: "Invalid contest"
     end
@@ -69,7 +74,12 @@ class ContestsController < ApplicationController
     # For making sure the solution is within the time limit
     session[:time] = Time.now.to_i
     # Used to avoid people trying to cheat by changing the puzzle in the form
-    msg = @prob[:puzzle] + @prob[:words].join('')
+    msg = ""
+    if contest_ident == 1
+      msg = @prob[:puzzle] + @prob[:words].join('')
+    elsif contest_ident == 2
+      msg = @prob[:query] + @prob[:posts].map{|x| x[0]}.join('+')
+    end
     key = ENV['HMAC_KEY'] || "derp"
     session[:key] = OpenSSL::HMAC.hexdigest('sha256', msg, key)
 
@@ -78,28 +88,63 @@ class ContestsController < ApplicationController
 
   def solution
     contest = Contest.find(params[:contest])
-    puzzle = params[:puzzle].gsub('N', "\n")
-    words = params[:words].split('+')
-    prob = {puzzle: puzzle, words: words}
-    msg = puzzle + words.join('')
-    key = ENV['HMAC_KEY'] || "derp"
-    hmac = OpenSSL::HMAC.hexdigest('sha256', msg, key)
-    if hmac != session[:key]
-      redirect_to contest, alert: 'Cheating detected...'
-      return
-    end
-    session.delete :key
-    level = params[:level]
-    time_elapsed = Time.now.to_i - session[:time]
-    session.delete :time
-    if time_elapsed > 120
-      redirect_to contest,
-        alert: "Sorry, you took too long with your answer (#{time_elapsed} seconds)"
-      return
-    end
-    # This is rather more difficult to split up, since we need to do different
-    # preprocessing to the input before we can check it
-    if contest.puzzle_ident == 1
+    correct = false
+
+    if contest.puzzle_ident == 2
+      posts = params[:posts]
+      query = params[:query]
+      msg = query + posts
+      key = ENV['HMAC_KEY'] || "derp"
+      hmac = OpenSSL::HMAC.hexdigest('sha256', msg, key)
+      if hmac != session[:key]
+        redirect_to contest, alert: 'Cheating detected...'
+        return
+      end
+      session.delete :key
+      level = params[:level]
+      time_elapsed = Time.now.to_i - session[:time]
+      session.delete :time
+      if time_elapsed > 60
+        redirect_to contest,
+          alert: "Sorry, you took too long with your answer (#{time_elapsed} seconds)"
+        return
+      end
+
+      # CHECK SOLUTION
+
+      soln = params[:solution]
+      if level == '0'
+        correct = ContestsHelper::Dojo2.verify_level0(posts, query, soln)
+      elsif level == '1'
+        correct = ContestsHelper::Dojo2.verify_level1()
+      elsif level == '2'
+        correct = ContestsHelper::Dojo2.verify_level2()
+      end
+
+
+    elsif contest.puzzle_ident == 1
+      puzzle = params[:puzzle].gsub('N', "\n")
+      words = params[:words].split('+')
+      prob = {puzzle: puzzle, words: words}
+      msg = puzzle + words.join('')
+      key = ENV['HMAC_KEY'] || "derp"
+      hmac = OpenSSL::HMAC.hexdigest('sha256', msg, key)
+      if hmac != session[:key]
+        redirect_to contest, alert: 'Cheating detected...'
+        return
+      end
+      session.delete :key
+      level = params[:level]
+      time_elapsed = Time.now.to_i - session[:time]
+      session.delete :time
+      if time_elapsed > 120
+        redirect_to contest,
+          alert: "Sorry, you took too long with your answer (#{time_elapsed} seconds)"
+        return
+      end
+      # This is rather more difficult to split up, since we need to do different
+      # preprocessing to the input before we can check it
+
       soln = nil
       if level == '0'
         soln = params[:solution].split(/\s*,\s*/).map(&:to_i)
@@ -123,12 +168,18 @@ class ContestsController < ApplicationController
           )
         end
       end
+      
+
     end
+
     if correct
-      Pony.mail(
-        :to => 'rafal.dittwald@gmail.com', :cc => 'james.nvc@gmail.com',
-        :from => 'dojobot@hackeracademy.org',
-        :subject => "#{current_user.name} has solved problem #{level} at #{Time.now}")
+
+      if ENV["RAILS_ENV"] == "production"
+        Pony.mail(
+          :to => 'rafal.dittwald@gmail.com', :cc => 'james.nvc@gmail.com',
+          :from => 'dojobot@hackeracademy.org',
+          :subject => "#{current_user.name} has solved problem #{level} at #{Time.now}")
+      end
       redirect_to contest, notice: 'Congratulations! Your solution was correct!'
       current_user.solved ||= []
       current_user.solved << ["dojo#{contest.puzzle_ident}_level#{level}", Time.now]

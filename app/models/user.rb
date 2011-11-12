@@ -48,7 +48,7 @@ class User
   end
 
   def has_solved? dojo, level
-    self.solved.map(&:first).member? "dojo#{dojo}_level#{level}"
+    self.solved.map(&:first).member? "dojo#{dojo}_level#{level}" if self.solved
   end
 
   def puzzle_available? dojo, level
