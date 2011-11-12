@@ -145,7 +145,7 @@ module ContestsHelper
 
       score = 1.0 * sum / total
 
-      return [score > 0.9,score]
+      return [score > 0.75,score]
 
     end
 
