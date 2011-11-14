@@ -2,6 +2,9 @@ class PageController < ApplicationController
   skip_authorization_check
 
   def show
+    if params[:name] == "leaderboard"
+      response.headers['Cache-Control'] = 'public, max-age=86400'
+    end
     render params[:name]
   end
 
