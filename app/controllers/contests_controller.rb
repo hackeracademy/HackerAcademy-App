@@ -184,7 +184,7 @@ class ContestsController < ApplicationController
     if correct
 
       if ENV["RAILS_ENV"] == "production"
-        if false
+        if true
           Pony.mail(
             :to => 'rafal.dittwald@gmail.com', :cc => 'james.nvc@gmail.com',
             :from => 'dojobot@hackeracademy.org',
@@ -206,12 +206,12 @@ class ContestsController < ApplicationController
 
       if perf != -1
         if ENV["RAILS_ENV"] == "production"
-        if false
-        Pony.mail(
-          :to => 'rafal.dittwald@gmail.com', :cc => 'james.nvc@gmail.com',
-          :from => 'dojobot@hackeracademy.org',
-          :subject => "#{perf.round(2)} #{current_user.name} P#{level} at #{Time.now}")
-        end
+        if true
+          Pony.mail(
+            :to => 'rafal.dittwald@gmail.com', :cc => 'james.nvc@gmail.com',
+            :from => 'dojobot@hackeracademy.org',
+            :subject => "#{perf.round(2)} #{current_user.name} P#{level} at #{Time.now}")
+          end
         end
         redirect_to contest, alert: "Sorry, your solution was not good enough. P=#{perf.round(2)}"
       else
