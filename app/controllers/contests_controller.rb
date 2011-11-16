@@ -197,7 +197,11 @@ class ContestsController < ApplicationController
           end
         end
       end
-      redirect_to contest, notice: 'Congratulations! Your solution was correct!'
+      if perf != -1
+        redirect_to contest, notice: "Congratulations! Your solution was good enough! #{perf.round(2)}"
+      else
+        redirect_to contest, notice: 'Congratulations! Your solution was correct!'
+      end
       current_user.solved ||= []
       current_user.solved << ["dojo#{contest.puzzle_ident}_level#{level}", Time.now]
       current_user.save
