@@ -1,0 +1,19 @@
+%p You have 120 seconds to submit a solution:
+= form_tag("/contests/solution", method: 'POST') do
+  = hidden_field_tag :level, @level
+  = hidden_field_tag :contest, @contest.id
+  - if @contest.puzzle_ident == 1
+    = hidden_field_tag :puzzle, @prob[:puzzle].gsub(/\n/, 'N')
+    = hidden_field_tag :words, @prob[:words].join('+')
+  - elsif @contest.puzzle_ident == 2
+    - if @level == 0
+      = hidden_field_tag :query, @prob[:query]
+      = hidden_field_tag :posts, @prob[:posts].map{|x| x[0]}.join('+')
+    - elsif @level > 0
+      = hidden_field_tag :searches, @prob[:searches].map{|x| x[0]}.join('+')
+      = hidden_field_tag :locations, @prob[:locations].join('+')
+  .field
+    = label_tag :solution
+    %br
+    = text_area_tag :solution, "", :size => "50x20"
+  = submit_tag 'Check solution'

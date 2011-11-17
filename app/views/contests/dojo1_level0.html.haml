@@ -1,0 +1,40 @@
+= render partial: 'problem_header'
+%p Find the needles in the haystack!
+
+%p
+  Given a list of words (needles) and a string of text (haystack), return the
+  location of each needle (or its reverse) in the haystack.
+  %br
+  Return the index for the first character of each word, with the words in
+  alphabetical order. Return -1 if a word is not found.
+  %br
+  A needle will only appear once.
+
+%h2 Sample Problem
+%h4 Needles
+.data
+  %code
+    beta
+    %br
+    alpha
+    %br
+    gamma
+%h4 Haystack
+.data
+  %code xxxalphaxxxatebxxx
+%h4 Solution
+.data
+  %code 3, 14, -1
+
+%h2 Actual Problem
+%h4 Needles
+.data
+  %code
+    - @prob[:words].each do |word|
+      = word
+      %br
+%h4 Haystack
+.data
+  %code= @prob[:puzzle]
+
+= render partial: 'submit'

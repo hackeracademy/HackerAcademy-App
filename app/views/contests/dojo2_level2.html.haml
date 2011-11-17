@@ -1,0 +1,63 @@
+= render partial: 'problem_header'
+%p Fuzzy Name Search, Part 2
+
+%p
+  Sometimes, ElectricCourage users are in a rush or slightly intoxicated, 
+  making their queries even worse than before. Also, most users don't call places 
+  by their formal names, and may drop common words like club, pub, the, etc.
+  %br
+  %br
+  You are given: 1. a list of 1000 place names, and 2. a list of 100 search queries and their ids.
+  Match each search query to its expected place name, and return the id of the search string and the identified place.
+  Your algorithm only has to get 90% of the matches right to pass.
+  %br
+  %br
+  Like before, except queries may now also:
+  %ul
+    %li be missing words completely
+    %li have words in the wrong order
+
+%h2 Sample Problem
+%h4 Locations
+.data
+  %code
+    Bar Volo<br />
+    The Madison Pub<br />
+    Embassy Night Club<br />
+%h4 Queries
+.data
+  %code
+    1a<br />
+    Vol<br />
+    2b<br />
+    Maddie<br />
+    3c<br />
+    Club Embasy
+
+%h4 Solution
+.data
+  %code
+    1a<br />
+    Bar Volo<br />
+    2b<br />
+    The Madison Pub<br />
+    3c<br />
+    Embassy Night Club
+
+%h2 Actual Problem
+%h4 Locations
+.data
+  %code
+    - @prob[:locations].each do |word|
+      = word
+      %br
+%h4 Queries
+.data
+  %code
+    - @prob[:searches].each do |hash_search|
+      = hash_search[0]
+      %br
+      = hash_search[1]
+      %br
+
+= render partial: 'submit'

@@ -1,0 +1,69 @@
+= render partial: 'problem_header'
+%p Fuzzy Name Search
+
+%p
+  The first thing that ElectricCourage users do when they get to a club or bar
+  is sign in, but in order to do so they need to find the right location in our application.
+  Geolocation helps, but sometimes, we have to rely on user input.
+  %br
+  %br
+  Given a list of locations and a query, find the correct location name.
+  Unfortunately, places go by different names, and, 
+  our users often make typos on their mobile phones.
+  %br
+  %br
+  You are given: 1. a list of 100 place names, and 2. a list of 100 search queries and their ids.
+  Match each search query to its expected place name, and return the id of the search string and the identified place.
+  Your algorithm only has to get 90% of the matches right to pass.
+  Note, that the queries may have issues, such as:
+  %ul
+    %li swapped letters
+    %li missing letters
+    %li incorrect letters
+    %li extra letters
+
+%h2 Sample Problem
+%h4 Locations
+.data
+  %code
+    Bar Volo<br/>
+    The Madison Pub<br/>
+    Embassy Night Club
+%h4 Queries
+.data
+  %code
+    1a<br/>
+    Br Volo<br/>
+    2b<br/>
+    The Madison Pud<br/>
+    3c<br/>
+    EmbasyNite Club
+
+%h4 Solution
+.data
+  %code
+    1a<br/>
+    Bar Volo<br/>
+    2b<br/>
+    The Madison Pub<br/>
+    3c<br/>
+    Embassy Night Club
+
+%h2 Actual Problem
+%h4 Locations
+.data
+  %code
+    - @prob[:locations].each do |word|
+      = word
+      %br
+%h4 Queries
+.data
+  %code
+    - @prob[:searches].each do |hash_search|
+      = hash_search[0]
+      %br
+      = hash_search[1]
+      %br
+
+
+= render partial: 'submit'
