@@ -2,7 +2,7 @@ class User
   include Mongoid::Document
   validates_uniqueness_of :name, :email, :case_sensitive => false
   attr_accessible :name, :email, :password, :password_confirmation, :remember_me
-  attr_accessible :preferred_language, :year, :program, :rfid
+  attr_accessible :preferred_language, :year, :program, :rfid, :shirt_size
 
   devise :database_authenticatable, :registerable, :recoverable,
     :rememberable, :trackable, :validatable, :lockable
@@ -11,6 +11,7 @@ class User
 
   field :rfid
 
+  field :shirt_size
   field :preferred_language
   field :program
   field :year
