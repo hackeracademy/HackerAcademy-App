@@ -13,7 +13,7 @@ gem 'haml', '3.1.1'
 gem 'jquery-rails', '1.0.9'
 gem 'devise', '1.3.4'
 gem 'cancan', '~> 1.6'
-gem 'redcarpet'
+gem 'redcarpet', '1.17.2'
 gem 'pony'
 
 group :development, :test do
