@@ -1,0 +1,5 @@
+%p Scan your RFID chits in the field below
+= form_tag "/draw_raffle", method: "POST" do
+  .raffle_ids
+    = text_area_tag :user_rfids
+  = submit_tag "Raffle!"

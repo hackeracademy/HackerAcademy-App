@@ -18,6 +18,7 @@ HackerAcademy::Application.routes.draw do
   root :to => 'page#show', :name => 'home'
 
   post '/redeem' => 'page#redeem'
+  post '/draw_raffle' => 'page#draw_raffle'
   post '/rfid' => 'page#rfid'
   post '/set_current' => 'page#set_current'
   match ':name' => 'page#show'

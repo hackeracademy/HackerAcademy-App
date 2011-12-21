@@ -8,6 +8,18 @@ class PageController < ApplicationController
     render params[:name]
   end
 
+  def draw_raffle
+    rfids = params[:user_rfids].split(/\n/).map(&:chomp)
+    users = rfids.delete_if(&:nil?).map {|rfid| User.where(rfid: rfid).first }
+    # TODO
+    raffle = []
+    users.each do |user|
+      raffle.concat Array.new(user.raffle_points, user.name)
+    end
+    @winner = raffle[rand raffle.length]
+    render :raffle_result
+  end
+
   def set_current
     if current_user.nil? or !current_user.is_admin?
       redirect_to '/', alert: 'Only admins allowed'
