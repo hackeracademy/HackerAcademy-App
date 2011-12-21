@@ -14,7 +14,7 @@ class PageController < ApplicationController
     # TODO
     raffle = []
     users.each do |user|
-      raffle.concat Array.new(user.raffle_points, user.name)
+      raffle.concat Array.new(user.raffle_score, user.name)
     end
     @winner = raffle[rand raffle.length]
     render :raffle_result
