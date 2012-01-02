@@ -36,6 +36,26 @@ class User
     end.sum
   end
 
+  def raffle_score
+    points = self.achievements.map(&:value).sum
+    dojo1_winners = ["Zongyi", "Cheng Zhao", "Roberto Bortolussi",
+      "Mengye Ren", "Adam Hueniken"]
+    dojo2_winners = ["Roberto Bortolussi", "Liam Cooke", "Adam Hueniken",
+      "Zongyi", "Cheng Zhao"]
+    if not dojo1_winners.member? self.name
+      dojo = DojoAchievement.where(name: "Dojo 1: Needles").first
+      points += [(dojo.p0_scores[self.id.to_s] || 0),
+       (dojo.p1_scores[self.id.to_s] || 0),
+       (dojo.p2_scores[self.id.to_s] || 0)].sum
+    end
+    if not dojo2_winners.member? self.name
+      dojo = DojoAchievement.where(name: "Dojo 2: Electric Courage").first
+      points += [(dojo.p0_scores[self.id.to_s] || 0),
+       (dojo.p1_scores[self.id.to_s] || 0),
+       (dojo.p2_scores[self.id.to_s] || 0)].sum
+    end
+  end
+
   def total_score
     self.achievements.map(&:value).sum + self.dojo_points
   end

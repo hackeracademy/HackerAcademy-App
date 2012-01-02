@@ -180,6 +180,6 @@ DEPENDENCIES
   mongoid-rspec
   pony
   rails (= 3.0.7)
-  redcarpet
+  redcarpet (= 1.17.2)
   rspec-rails
   webrat
