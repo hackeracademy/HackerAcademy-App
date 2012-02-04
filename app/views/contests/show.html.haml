@@ -12,7 +12,7 @@
 %p!= @contest.problem
 %h2 Solve It!
 %ol
-  - (0..2).each do |lvl|
+  - (0..@num_probs).each do |lvl|
     %li
       = "Problem #{lvl}:"
       - if current_user.puzzle_available? @contest.puzzle_ident, lvl

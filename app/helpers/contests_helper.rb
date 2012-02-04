@@ -30,6 +30,90 @@ module ContestsHelper
     return self.const_get(:"Dojo#{dojo}").verify_puzzle(level, *args)
   end
 
+  WORDS = Marshal.load(open('lib/words2.dump'))
+
+  module Dojo3
+
+    TEXT = open('lib/corpus.txt').readlines.map(&:chomp).map(&:downcase)
+
+    def self.shift_encode text, shift
+      return text.split(//).map do |char|
+        (((char.ord - 'a'.ord + shift) % 26) + 'a'.ord).chr
+      end.join
+    end
+
+    # Level 0: Shift cipher with a given shift - spaces removed
+    def self.generate_level0
+      phrase = TEXT[rand(TEXT.length), 3].join.gsub(/[^a-z]/, '')
+      shift = rand 26
+      shifted = shift_encode phrase, shift
+      return {shift: shift, ciphertext: shifted, plaintext: phrase}
+    end
+
+    def self.verify_level0 our_plaintext, their_plaintext
+      return our_plaintext == their_plaintext
+    end
+
+    # Level 1: Shift cipher
+    def self.generate_level1
+      # Only difference is that we don't give the user the shift
+      generate_level0
+    end
+
+    def self.verify_level1 our_plaintext, their_plaintext
+      return our_plaintext == their_plaintext
+    end
+
+    # Level 2: Arbitrary substitution cipher
+    def self.generate_level2
+      alphabet = ('a'..'z').to_a + [' ', '.', ',', ':', ';']
+      encoding = alphabet.zip(alphabet.shuffle).inject({}) do |hsh, (k,v)|
+        hsh[k] = v
+        hsh
+      end
+      phrase = TEXT[rand(TEXT.length), 6].join(' ')
+      ciphered = phrase.split(//).map {|char| encoding[char] }.join
+      return {plaintext: phrase, ciphertext: ciphered}
+    end
+
+    def self.verify_level2 our_plaintext, their_plaintext
+      return our_plaintext == their_plaintext
+    end
+
+    # XOR cipher with fragment of plaintext given
+    def self.generate_level3
+      phrase = TEXT[rand(TEXT.length), 3].join(' ').split
+      key = WORDS.sample
+      hint = phrase.sample
+      while hint.length < 3
+        hint = phrase.sample
+      end
+      attempts = 0
+      while hint.length < key.length
+        hint = phrase[rand(phrase.length), 2 + (attempts % 10)].join ' '
+        attempts += 1
+      end
+      plain = phrase.join(' ').split(//)
+      ciphered = plain.zip((key * ((plain.length / key.length) + 1)
+                           ).split(//)).map do |(char, k)|
+        char.ord ^ k.ord
+      end.join ' '
+      return {plaintext: phrase.join(' '), ciphertext: ciphered, hint: hint}
+    end
+
+    def self.verify_level3 our_plaintext, their_plaintext
+      return our_plaintext == their_plaintext
+    end
+
+    def self.generate_puzzle(level, *args)
+      return self.send("generate_level#{level}", *args)
+    end
+
+    def self.verify_puzzle(level, *args)
+      return self.send("verify_level#{level}", *args)
+    end
+  end
+
   module Dojo2
 
     POSTS = Marshal.load(open('lib/ecdojoposts.dump'))
@@ -46,7 +130,7 @@ module ContestsHelper
 
     def self.verify_level0(posts, query, soln)
       s = soln.split("\n").map{|x| x.strip}.join("+")
-      
+
       times_ids = []
 
       posts.split('+').each do |post_id|
@@ -124,7 +208,7 @@ module ContestsHelper
         hash_searches << [hash, search]
       end
 
-      
+
       return {searches: hash_searches, locations: locations}
     end
 
