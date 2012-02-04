@@ -130,7 +130,7 @@ class ContestsController < ApplicationController
                           when 1 then 120
                           when 2 then 300
                           when 3 then 600
-                          else 120
+                          else 600
                           end
       if time_elapsed > max_time_allowed
         redirect_to contest,
