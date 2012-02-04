@@ -64,24 +64,8 @@ module ContestsHelper
       return our_plaintext == their_plaintext
     end
 
-    # Level 2: Arbitrary substitution cipher
+    # Level 2: XOR cipher with fragment of plaintext given
     def self.generate_level2
-      alphabet = ('a'..'z').to_a + [' ', '.', ',', ':', ';']
-      encoding = alphabet.zip(alphabet.shuffle).inject({}) do |hsh, (k,v)|
-        hsh[k] = v
-        hsh
-      end
-      phrase = TEXT[rand(TEXT.length), 6].join(' ')
-      ciphered = phrase.split(//).map {|char| encoding[char] }.join
-      return {plaintext: phrase, ciphertext: ciphered}
-    end
-
-    def self.verify_level2 our_plaintext, their_plaintext
-      return our_plaintext == their_plaintext
-    end
-
-    # XOR cipher with fragment of plaintext given
-    def self.generate_level3
       phrase = TEXT[rand(TEXT.length), 3].join(' ').split
       key = WORDS.sample
       hint = phrase.sample
@@ -99,6 +83,22 @@ module ContestsHelper
         char.ord ^ k.ord
       end.join ' '
       return {plaintext: phrase.join(' '), ciphertext: ciphered, hint: hint}
+    end
+
+    def self.verify_level2 our_plaintext, their_plaintext
+      return our_plaintext == their_plaintext
+    end
+
+    # Level 3: Arbitrary substitution cipher
+    def self.generate_level3
+      alphabet = ('a'..'z').to_a + [' ', '.', ',', ':', ';']
+      encoding = alphabet.zip(alphabet.shuffle).inject({}) do |hsh, (k,v)|
+        hsh[k] = v
+        hsh
+      end
+      phrase = TEXT[rand(TEXT.length), 6].join(' ')
+      ciphered = phrase.split(//).map {|char| encoding[char] }.join
+      return {plaintext: phrase, ciphertext: ciphered}
     end
 
     def self.verify_level3 our_plaintext, their_plaintext

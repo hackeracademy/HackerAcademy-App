@@ -71,7 +71,12 @@ class ContestsController < ApplicationController
         redirect_to @contest, alert: "Invalid level"
         return
       end
-      @max_time_allowed = @level <= 1 ? 120 : 300
+      @max_time_allowed = case @level
+                          when 0 then 120
+                          when 1 then 120
+                          when 2 then 300
+                          when 3 then 600
+                          end
     else
       redirect_to @contest, alert: "Invalid contest"
     end
@@ -120,7 +125,13 @@ class ContestsController < ApplicationController
       session.delete :time
 
       level = params[:level]
-      max_time_allowed = level == 0 ? 120 : 300
+      max_time_allowed = case level
+                          when 0 then 120
+                          when 1 then 120
+                          when 2 then 300
+                          when 3 then 600
+                          else 120
+                          end
       if time_elapsed > max_time_allowed
         redirect_to contest,
           alert: "Sorry, you took too long with your answer (#{time_elapsed} seconds)"
