@@ -1,5 +1,10 @@
+- if @winner
+  %h2= "Congratulations #{@winner}!"
 %p Scan your RFID chits in the field below
 = form_tag "/draw_raffle", method: "POST" do
   .raffle_ids
-    = text_area_tag :user_rfids
+    - if @rfids
+      = text_area_tag :user_rfids, @rfids.join("\r\n")
+    - else
+      = text_area_tag :user_rfids
   = submit_tag "Raffle!"

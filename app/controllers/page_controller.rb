@@ -13,11 +13,16 @@ class PageController < ApplicationController
     users = rfids.delete_if(&:nil?).map {|rfid| User.where(rfid: rfid).first }
     # TODO
     raffle = []
+    user_rfid = {}
     users.each do |user|
+      user_rfid[user.name] = user.rfid
       raffle.concat Array.new(user.raffle_score, user.name)
     end
     @winner = raffle[rand raffle.length]
-    render :raffle_result
+    user_rfid.delete @winner
+    @rfids = user_rfid.values
+    flash[:notice] = "#{@winner} wins!"
+    render :raffle
   end
 
   def set_current
@@ -43,7 +48,6 @@ class PageController < ApplicationController
     end
   end
 
-  # TODO: Fix this super-hacky solution to something that actually scales...
   def redeem
     if current_user.nil?
       redirect_to new_user_session_path, alert: 'You need to log in first'

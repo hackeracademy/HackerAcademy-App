@@ -1,4 +1,4 @@
-%p You have 120 seconds to submit a solution:
+%p= "You have #{@max_time_allowed} seconds to submit a solution:"
 = form_tag("/contests/solution", method: 'POST') do
   = hidden_field_tag :level, @level
   = hidden_field_tag :contest, @contest.id
