@@ -159,7 +159,7 @@ class ContestsController < ApplicationController
       if correctp
         if ENV["RAILS_ENV"] == "production"
           Pony.mail(
-            :to => 'rafal.dittwald@gmail.com', :cc => 'james.nvc@gmail.com',
+            :to => 'rafal.dittwald@gmail.com', :cc => 'jiang.d.han@gmail.com',
             :from => 'dojobot@hackeracademy.org',
             :subject => "#{current_user.name} has solved problem #{level} at #{Time.now}")
         end
