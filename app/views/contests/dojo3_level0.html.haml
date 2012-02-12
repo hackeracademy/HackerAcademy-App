@@ -1,0 +1,31 @@
+= render partial: 'problem_header'
+%p Simple Caeser Cipher
+
+%p
+  You've been given a block of text that's been stripped of spaces and
+  punctuation, made all lower-case, and encoded with a Caeser (shift) cipher,
+  with the shift given to you. Give the plaintext.
+
+%h2 Sample Problem
+%h4 Shift
+.data
+  %code
+    13
+%h4 Ciphertext
+.data
+  %code
+    wnpxqnjfybirzlovtfcuvakbsdhnegm
+%h4 Solution
+.data
+  %code
+    jackdawslovemybigsphinxofquartz
+
+%h2 Actual Problem
+%h4 Shift
+.data
+  %code= @prob[:shift]
+%h4 Ciphertext
+.data
+  %code= @prob[:ciphertext]
+= render partial: 'submit'
+

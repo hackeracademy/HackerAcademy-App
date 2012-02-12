@@ -1,0 +1,28 @@
+= render partial: 'problem_header'
+%p Substitution Cipher
+
+%p
+  You've been given a block of text that's been encoded with a basic
+  substitution cipher - that is, there is a one-to-one mapping between each
+  character which you must determine.
+%p
+  Note that in this case, you may not be able to complete automate the solving
+  \- don't discount looking at intermediate output for clues!
+
+%h2 Sample Problem
+%h4 Ciphertext
+.data
+  %code
+    wnpxqnjfybirzlovtfcuvakbsdhnegm
+%h4 Solution
+.data
+  %code
+    jackdawslovemybigsphinxofquartz
+
+%h2 Actual Problem
+%h4 Ciphertext
+.data
+  %code= @prob[:ciphertext]
+= render partial: 'submit'
+
+

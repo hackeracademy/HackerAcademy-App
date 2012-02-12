@@ -22,6 +22,7 @@ class ContestsController < ApplicationController
   # GET /contests/1.xml
   def show
     @contest = Contest.find(params[:id])
+    @num_probs = @contest.puzzle_ident == 3 ? 3 : 2
     if @contest.start > DateTime.now
       unless current_user.is_admin
         redirect_to contests_path, alert: "That contest has not yet started"
@@ -44,6 +45,8 @@ class ContestsController < ApplicationController
       return
     end
 
+    @max_time_allowed = 120
+
     # To add more dojos, add another elsif contest_ident == statement. In the
     # block, simply add another elsif block for the appropriate contest_ident
     # which sets the "args" variable to be the array of arguments which will be
@@ -61,8 +64,19 @@ class ContestsController < ApplicationController
     elsif contest_ident == 2
       unless (0..2).member? @level
         redirect_to @contest, alert: "Invalid level"
-        args = []
+        return
       end
+    elsif contest_ident == 3
+      unless (0..3).member? @level
+        redirect_to @contest, alert: "Invalid level"
+        return
+      end
+      @max_time_allowed = case @level
+                          when 0 then 120
+                          when 1 then 120
+                          when 2 then 300
+                          when 3 then 600
+                          end
     else
       redirect_to @contest, alert: "Invalid contest"
     end
@@ -83,6 +97,15 @@ class ContestsController < ApplicationController
       elsif @level > 0
         msg = @prob[:searches].map{|x| x[0]}.join('+') + @prob[:locations].join('+')
       end
+    elsif contest_ident == 3
+      aes = OpenSSL::Cipher::Cipher.new("AES-128-CBC")
+      aes.encrypt
+      aes.pkcs5_keyivgen(ENV['ENC_PASS'] || "foobar",
+                         ENV['ENC_SALT'] || "sodiumcl")
+      cipher =  aes.update(@prob[:plaintext])
+      cipher << aes.final
+      session[:soln] = cipher.unpack('H*').join
+      msg = ''
     end
     key = ENV['HMAC_KEY'] || "derp"
     session[:key] = OpenSSL::HMAC.hexdigest('sha256', msg, key)
@@ -95,7 +118,60 @@ class ContestsController < ApplicationController
     correct = false
     perf = -1
 
-    if contest.puzzle_ident == 2
+    if contest.puzzle_ident == 3
+      session.delete :key
+
+      time_elapsed = Time.now.to_i - session[:time]
+      session.delete :time
+
+      level = params[:level]
+      max_time_allowed = case level
+                          when 0 then 120
+                          when 1 then 120
+                          when 2 then 300
+                          when 3 then 600
+                          else 600
+                          end
+      if time_elapsed > max_time_allowed
+        redirect_to contest,
+          alert: "Sorry, you took too long with your answer (#{time_elapsed} seconds)"
+        return
+      end
+
+      begin
+        aes = OpenSSL::Cipher::Cipher.new("AES-128-CBC")
+        aes.decrypt
+        aes.pkcs5_keyivgen(ENV['ENC_PASS'] || "foobar",
+                           ENV['ENC_SALT'] || "sodiumcl")
+        our_plain =  aes.update(session[:soln].split.pack('H*'))
+        our_plain << aes.final
+      rescue OpenSSL::Cipher::CipherError => e
+        redirect_to contest,
+          alert: "Something funny happened there, try again"
+        return
+      ensure
+        session.delete :soln
+      end
+
+      correctp = ContestsHelper::Dojo3.verify_puzzle(level.to_i,
+                                                     our_plain,
+                                                     params[:solution])
+      if correctp
+        if ENV["RAILS_ENV"] == "production"
+          Pony.mail(
+            :to => 'rafal.dittwald@gmail.com', :cc => 'jiang.d.han@gmail.com',
+            :from => 'dojobot@hackeracademy.org',
+            :subject => "#{current_user.name} has solved problem #{level} at #{Time.now}")
+        end
+        redirect_to contest, notice: 'Congratulations! Your solution was correct!'
+        current_user.solved ||= []
+        current_user.solved << ["dojo#{contest.puzzle_ident}_level#{level}", Time.now]
+        current_user.save
+      else
+        redirect_to contest, alert: 'Sorry, your solution was incorrect'
+      end
+      return
+    elsif contest.puzzle_ident == 2
       msg = nil
       level = params[:level]
 
@@ -129,8 +205,6 @@ class ContestsController < ApplicationController
       elsif level == '2'
         correct,perf = ContestsHelper::Dojo2.verify_level2(params[:searches], params[:locations], params[:solution])
       end
-
-
     elsif contest.puzzle_ident == 1
       puzzle = params[:puzzle].gsub('N', "\n")
       words = params[:words].split('+')
@@ -177,7 +251,7 @@ class ContestsController < ApplicationController
           )
         end
       end
-      
+
 
     end
 
@@ -206,7 +280,7 @@ class ContestsController < ApplicationController
       current_user.solved << ["dojo#{contest.puzzle_ident}_level#{level}", Time.now]
       current_user.save
     else
-      
+
 
       if perf != -1
         if ENV["RAILS_ENV"] == "production"

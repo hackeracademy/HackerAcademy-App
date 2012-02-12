@@ -14,8 +14,10 @@
 
 %br
 
-%h2 Or scan your badge
+- if current_user.is_admin?
 
-= form_tag '/rfid' do
-  = label_tag :rfid
-  = text_field_tag :rfid
+  %h2 Or scan your badge
+
+  = form_tag '/rfid' do
+    = label_tag :rfid
+    = text_field_tag :rfid

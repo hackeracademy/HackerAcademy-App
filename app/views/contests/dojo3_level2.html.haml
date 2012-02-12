@@ -1,0 +1,45 @@
+= render partial: 'problem_header'
+%p XOR Cipher
+
+%p
+  You are given a series of decimal numbers that are the result of XOR'ing the
+  ASCII values of the plaintext with a key, e.g. if our plain text is "my plain
+  text" and the key is "key":
+  .data
+    %code
+      &nbsp;&nbsp;&nbsp;m&nbsp;&nbsp;y&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p&nbsp;l&nbsp;&nbsp;a&nbsp;i&nbsp;&nbsp;n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t&nbsp;e&nbsp;x&nbsp;&nbsp;t
+      %br
+      ^&nbsp;&nbsp;k&nbsp;&nbsp;e&nbsp;&nbsp;y&nbsp;&nbsp;k&nbsp;e&nbsp;&nbsp;y&nbsp;k&nbsp;&nbsp;e&nbsp;&nbsp;y&nbsp;&nbsp;k&nbsp;e&nbsp;y&nbsp;&nbsp;k
+      %br
+      \--------------------------------------------
+      %br
+      &nbsp;&nbsp;&nbsp;6 28 89 27 9 24 2 11 89 31 0 1 31
+
+  To help you solve this, we've given you a word or two that appear (in the
+  order shown) in the plaintext.
+%p
+  Note that the key will be a dictionary word.
+
+%h2 Sample Problem
+%h4 Hint
+.data
+  %code
+    plain
+%h4 Ciphertext
+.data
+  %code
+    6 28 89 27 9 24 2 11 89 31 0 1 31
+%h4 Solution
+.data
+  %code
+    my plain text
+
+%h2 Actual Problem
+%h4 Hint
+.data
+  %code= @prob[:hint]
+%h4 Ciphertext
+.data
+  %code= @prob[:ciphertext]
+= render partial: 'submit'
+
