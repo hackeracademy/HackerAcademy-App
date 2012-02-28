@@ -24,7 +24,7 @@ class User
   def dojos
     DojoAchievement.all.select do |da|
       not (da.p0_scores[self.id.to_s].nil? && da.p1_scores[self.id.to_s].nil? &&
-            da.p2_scores[self.id.to_s].nil?)
+            da.p2_scores[self.id.to_s].nil? && da.p3_scores[self.id.to_s].nil?)
     end
   end
 
@@ -32,7 +32,8 @@ class User
     self.dojos.map do |dojo|
       [(dojo.p0_scores[self.id.to_s] || 0),
        (dojo.p1_scores[self.id.to_s] || 0),
-       (dojo.p2_scores[self.id.to_s] || 0)].sum
+       (dojo.p2_scores[self.id.to_s] || 0),
+       (dojo.p3_scores[self.id.to_s] || 0)].sum
     end.sum
   end
 
